@@ -6,7 +6,6 @@ import onectImage from "../../Resource/Work/Onect/Onect_thumbnail_image.jpg?url"
 import onectVideo from "../../Resource/Work/Onect/Onect_thumbnail_video.mp4?url";
 import gemiImage from "../../Resource/Work/GEMI/GEMI_thumbnail_image.png?url";
 import gemiVideo from "../../Resource/Work/GEMI/GEMI_thumbnail_video.mp4?url";
-import birdingVideo from "../../Resource/Work/Birding/Birding_thumbnail_video.mp4?url";
 import horrorgameVideo from "../../Resource/Work/Horrorgame/Horrorgame_thumbnail_image.mp4?url";
 import xomoxImage from "../../Resource/Work/XOMOX/XOMOX_thumbnail_image.jpeg?url";
 import minigolfVideo from "../../Resource/Work/Minigolf/Minigolf_thumbnail_video.mp4?url";
@@ -99,7 +98,6 @@ export const work: WorkItem[] = [
     status: "stub",
     group: "fun",
     summary: "Archived exploration project from ycho.me.",
-    video: birdingVideo,
   },
   {
     slug: "horrorgame",
