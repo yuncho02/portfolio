@@ -3,7 +3,15 @@
 
 <div class="preview" data-preview data-empty="true">
   <img class="preview-media" data-preview-image alt="" hidden />
-  <video class="preview-media" data-preview-video muted loop playsinline hidden></video>
+  <video
+    class="preview-media"
+    data-preview-video
+    muted
+    loop
+    playsinline
+    preload="auto"
+    hidden
+  ></video>
 </div>
 
 <style>
@@ -15,7 +23,7 @@
     background: transparent;
     overflow: hidden;
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.15s ease;
   }
 
   .preview[data-empty="false"] {
@@ -29,7 +37,7 @@
     height: 100%;
     object-fit: cover;
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.15s ease;
   }
 
   .preview-media.is-active {
@@ -50,6 +58,7 @@
 
     const rows = Array.from(list.querySelectorAll<HTMLElement>(".row"));
     let token = 0;
+    let activeRow: HTMLElement | null = null;
 
     const mediaUrl = (value?: string) => {
       if (!value) return "";
@@ -60,66 +69,160 @@
       }
     };
 
-    const clear = () => {
-      token += 1;
-      preview.dataset.empty = "true";
-      previewImage.classList.remove("is-active");
+    const imageCache = new Map<string, HTMLImageElement>();
+    const videoCache = new Map<string, HTMLVideoElement>();
+
+    const preloadImage = (src: string) => {
+      const href = mediaUrl(src);
+      if (!href || imageCache.has(href)) return imageCache.get(href);
+      const img = new Image();
+      img.decoding = "async";
+      img.src = href;
+      imageCache.set(href, img);
+      return img;
+    };
+
+    const preloadVideo = (src: string) => {
+      const href = mediaUrl(src);
+      if (!href || videoCache.has(href)) return videoCache.get(href);
+      const video = document.createElement("video");
+      video.muted = true;
+      video.defaultMuted = true;
+      video.playsInline = true;
+      video.preload = "auto";
+      video.src = href;
+      video.load();
+      videoCache.set(href, video);
+      return video;
+    };
+
+    const warmAll = () => {
+      rows.forEach((row) => {
+        const image = row.dataset.image?.trim();
+        const video = row.dataset.video?.trim();
+        if (image) preloadImage(image);
+        if (video) preloadVideo(video);
+      });
+    };
+
+    if ("requestIdleCallback" in window) {
+      window.requestIdleCallback(() => warmAll(), { timeout: 1200 });
+    } else {
+      window.setTimeout(warmAll, 200);
+    }
+
+    const hideVideo = () => {
       previewVideo.classList.remove("is-active");
       previewVideo.pause();
-      previewVideo.removeAttribute("src");
-      previewVideo.load();
-      previewImage.removeAttribute("src");
-      previewImage.hidden = true;
       previewVideo.hidden = true;
     };
 
+    const hideImage = () => {
+      previewImage.classList.remove("is-active");
+      previewImage.hidden = true;
+    };
+
+    const clear = () => {
+      token += 1;
+      activeRow = null;
+      preview.dataset.empty = "true";
+      hideImage();
+      hideVideo();
+      // Keep src buffers warm — do not tear down media.
+    };
+
+    const playPreviewVideo = (src: string, next: number) => {
+      const href = mediaUrl(src);
+      const cached = preloadVideo(src);
+      const ready =
+        cached && cached.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA;
+
+      if (mediaUrl(previewVideo.currentSrc || previewVideo.getAttribute("src") || "") !== href) {
+        previewVideo.src = href;
+      }
+
+      previewVideo.hidden = false;
+      previewVideo.muted = true;
+      previewVideo.defaultMuted = true;
+      previewVideo.volume = 0;
+
+      const activate = () => {
+        if (next !== token) return;
+        previewVideo.classList.add("is-active");
+        hideImage();
+        void previewVideo.play().catch(() => {});
+      };
+
+      if (ready || previewVideo.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+        activate();
+        return;
+      }
+
+      const onReady = () => {
+        previewVideo.removeEventListener("loadeddata", onReady);
+        previewVideo.removeEventListener("canplay", onReady);
+        activate();
+      };
+      previewVideo.addEventListener("loadeddata", onReady, { once: true });
+      previewVideo.addEventListener("canplay", onReady, { once: true });
+      void previewVideo.play().catch(() => {});
+    };
+
     const show = (row: HTMLElement) => {
+      if (activeRow === row) return;
+
       const image = row.dataset.image?.trim();
       const video = row.dataset.video?.trim();
       const next = ++token;
+      activeRow = row;
 
       if (!image && !video) {
         clear();
         return;
       }
 
-      if (video) {
-        const nextSrc = mediaUrl(video);
-        if (mediaUrl(previewVideo.currentSrc || previewVideo.getAttribute("src") || "") !== nextSrc) {
-          previewVideo.src = video;
+      preview.dataset.empty = "false";
+
+      // Instant still while video warms (or as the final state).
+      if (image) {
+        preloadImage(image);
+        if (mediaUrl(previewImage.currentSrc || previewImage.getAttribute("src") || "") !== mediaUrl(image)) {
+          previewImage.src = image;
         }
-        preview.dataset.empty = "false";
-        previewVideo.hidden = false;
-        previewVideo.muted = true;
-        previewVideo.defaultMuted = true;
-        previewVideo.volume = 0;
-        void previewVideo.play().catch(() => {});
-        previewImage.classList.remove("is-active");
-        previewImage.hidden = true;
-        previewImage.removeAttribute("src");
+        previewImage.hidden = false;
         requestAnimationFrame(() => {
           if (next !== token) return;
-          previewVideo.classList.add("is-active");
+          previewImage.classList.add("is-active");
         });
+      } else {
+        hideImage();
+      }
+
+      if (video) {
+        playPreviewVideo(video, next);
         return;
       }
 
-      previewImage.src = image!;
-      preview.dataset.empty = "false";
-      previewImage.hidden = false;
-      previewVideo.classList.remove("is-active");
-      previewVideo.pause();
-      previewVideo.hidden = true;
-      previewVideo.removeAttribute("src");
-      previewVideo.load();
-      requestAnimationFrame(() => {
-        if (next !== token) return;
-        previewImage.classList.add("is-active");
-      });
+      hideVideo();
     };
 
+    // Warm the first main-item media as soon as the pointer enters the list.
+    list.addEventListener(
+      "pointerenter",
+      () => {
+        warmAll();
+      },
+      { once: true },
+    );
+
     rows.forEach((row) => {
-      row.addEventListener("mouseenter", () => show(row));
+      row.addEventListener("pointerenter", () => {
+        const image = row.dataset.image?.trim();
+        const video = row.dataset.video?.trim();
+        if (image) preloadImage(image);
+        if (video) preloadVideo(video);
+        show(row);
+      });
       row.addEventListener("focus", () => show(row));
     });
 
