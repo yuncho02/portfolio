@@ -1,0 +1,146 @@
+---
+interface Props {
+  visible?: boolean;
+}
+
+const { visible = true } = Astro.props;
+---
+
+<div
+  class:list={["view-toggle", { "is-hidden": !visible }]}
+  role="group"
+  aria-label="Work list layout"
+  aria-hidden={visible ? undefined : "true"}
+  inert={!visible ? true : undefined}
+  data-view-toggle
+>
+  <button type="button" class="view-option active" data-view="list" aria-pressed="true">List</button>
+  <button type="button" class="view-option" data-view="grid" aria-pressed="false">Grid</button>
+</div>
+
+<style>
+  .view-toggle {
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    padding: 3px;
+    background: var(--color-paper);
+    border: 1px solid rgba(26, 26, 26, 0.09);
+    border-radius: var(--radius-pill);
+  }
+
+  .view-toggle.is-hidden {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .view-option {
+    flex: 1 0 0;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 16px;
+    border-radius: var(--radius-pill);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: -0.03em;
+    color: #ccc;
+    transition:
+      background 0.15s ease,
+      color 0.15s ease;
+  }
+
+  .view-option:hover {
+    color: var(--color-ink);
+  }
+
+  .view-option.active {
+    background: #ededed;
+    color: var(--color-ink);
+  }
+
+  .view-option.active:hover {
+    color: var(--color-ink);
+  }
+</style>
+
+<script>
+  function syncViewToggleVisibility() {
+    const root = document.querySelector<HTMLElement>("[data-view-toggle]");
+    if (!root) return;
+
+    const onWork = (location.pathname.replace(/\/$/, "") || "/") === "/";
+    root.classList.toggle("is-hidden", !onWork);
+    root.toggleAttribute("inert", !onWork);
+    if (onWork) root.removeAttribute("aria-hidden");
+    else root.setAttribute("aria-hidden", "true");
+  }
+
+  function initViewToggle() {
+    syncViewToggleVisibility();
+
+    const root = document.querySelector<HTMLElement>("[data-view-toggle]");
+    const list = document.querySelector<HTMLElement>("[data-work-list]");
+    if (!root || !list) return;
+
+    const applyView = (view: string) => {
+      const liveList = document.querySelector<HTMLElement>("[data-work-list]");
+      const liveBody = document.querySelector<HTMLElement>("[data-body]");
+      const livePage = document.querySelector<HTMLElement>(".page--work");
+      if (liveList) liveList.dataset.view = view;
+      if (liveBody) liveBody.dataset.view = view;
+      if (livePage) livePage.dataset.view = view;
+      document.documentElement.dataset.workView = view;
+      window.dispatchEvent(new CustomEvent("work-view-change", { detail: { view } }));
+    };
+
+    try {
+      const saved = localStorage.getItem("work-view");
+      if (saved) {
+        const match = root.querySelector<HTMLButtonElement>(`.view-option[data-view="${saved}"]`);
+        if (match) {
+          root.querySelectorAll<HTMLButtonElement>(".view-option").forEach((b) => {
+            const active = b === match;
+            b.classList.toggle("active", active);
+            b.setAttribute("aria-pressed", String(active));
+          });
+          applyView(saved);
+        } else {
+          applyView(list.dataset.view || "list");
+        }
+      } else {
+        applyView(list.dataset.view || "list");
+      }
+    } catch {
+      applyView(list.dataset.view || "list");
+    }
+
+    if (root.dataset.bound === "true") return;
+    root.dataset.bound = "true";
+
+    root.addEventListener("click", (event) => {
+      const button = (event.target as HTMLElement | null)?.closest<HTMLButtonElement>(".view-option");
+      if (!button || !root.contains(button)) return;
+
+      const view = button.dataset.view;
+      if (!view) return;
+
+      root.querySelectorAll<HTMLButtonElement>(".view-option").forEach((b) => {
+        const active = b === button;
+        b.classList.toggle("active", active);
+        b.setAttribute("aria-pressed", String(active));
+      });
+
+      applyView(view);
+      try {
+        localStorage.setItem("work-view", view);
+      } catch {
+        /* private browsing / storage blocked */
+      }
+    });
+  }
+
+  document.addEventListener("astro:page-load", initViewToggle);
+</script>

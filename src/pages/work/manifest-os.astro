@@ -1,0 +1,139 @@
+---
+import CaseStudy from "../../layouts/CaseStudy.astro";
+import manifestImage from "../../../Resource/Work/Manifest/Manifest_thumbnail_image.jpg?url";
+---
+
+<CaseStudy
+  title="Manifest OS: Legal AI Tech"
+  brand="Manifest OS"
+  eyebrow="Manifest OS / Immigration law, done better"
+  description="Rebuilding the case workflow for attorneys and paralegals — a design-system audit and a shipped AI assistant."
+  role="Part-time Product Designer (Remote)"
+  timeline="May 2026 – Current"
+  team="Engineers, PMs, and 2 product designers"
+  skills={["Cursor", "Claude Design", "Figma", "UX/UI"]}
+  image={manifestImage}
+  anchors={[
+    { id: "overview", label: "Overview" },
+    { id: "design-system", label: "Design System" },
+    { id: "case-health", label: "Case Health" },
+    { id: "ai-assistant", label: "AI Assistant" },
+  ]}
+>
+  <div slot="intro">
+    <p class="lede">
+      Rebuilding the case workflow for attorneys and paralegals — a design-system
+      audit and a shipped AI assistant inside an active legal-tech platform.
+    </p>
+  </div>
+
+  <div class="content-stack">
+    <div class="info-card">
+      <h4>※ NDA note</h4>
+      <p>
+        Manifest OS is under active NDA — actual product screens can't be shown
+        here. The sections below describe the contribution and outcomes; get in
+        touch for a walkthrough of the real product.
+      </p>
+    </div>
+
+    <div class="redacted-block" aria-hidden="true">
+      <span class="redacted">████████████████████████</span>
+      <span class="redacted">████████████ ████████</span>
+    </div>
+
+    <div class="impact" data-impact>
+      <div class="impact-col impact-col--results">
+        <p class="impact-label">Achievement</p>
+        <div class="impact-stats">
+          <article class="impact-stat" data-impact-item>
+            <p class="impact-stat-value">785 → 230</p>
+            <p class="impact-stat-desc">Design tokens reduced (−70%)</p>
+          </article>
+          <article class="impact-stat" data-impact-item>
+            <p class="impact-stat-value">~10k</p>
+            <p class="impact-stat-desc">Daily users on the updated system</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="impact-col impact-col--contrib">
+        <p class="impact-label">My contribution</p>
+        <ul class="impact-list">
+          <li data-impact-item>
+            <strong>Design system</strong>
+            <span>Audited and rebuilt the token scale for maintainability</span>
+          </li>
+          <li data-impact-item>
+            <strong>Case Health Radar</strong>
+            <span>Shipped and validated with attorney user testing</span>
+          </li>
+          <li data-impact-item>
+            <strong>AI assistant</strong>
+            <span>In-context chat and inline document editing in production</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <p class="section-label" id="design-system">01 — Design System</p>
+  <div class="split">
+    <h3>Design system audit and rebuild</h3>
+    <div class="content-div">
+      <p class="prose-label">Method</p>
+      <div class="tag-row">
+        <span class="tag">Token Audit</span>
+        <span class="tag">Storybook Sync</span>
+        <span class="tag">Cursor</span>
+      </div>
+      <p>
+        Manifest's design system had grown past the point of being maintainable —
+        hundreds of near-duplicate tokens for color, type, and spacing had
+        accumulated as the product scaled. I audited the full token set and
+        rebuilt it around a smaller, disciplined scale.
+      </p>
+      <p>
+        Using Cursor to keep Storybook and the front end in sync with the new
+        tokens, the updated system shipped to a platform used by roughly 10,000
+        people daily.
+      </p>
+    </div>
+  </div>
+
+  <p class="section-label" id="case-health">02 — Case Health Radar</p>
+  <div class="split">
+    <h3>At-a-glance case status for attorneys and PMs</h3>
+    <div class="content-div">
+      <p class="prose-label">Method</p>
+      <div class="tag-row">
+        <span class="tag">Prototyping</span>
+        <span class="tag">Attorney Testing</span>
+      </div>
+      <p>
+        Shipped a feature that gives attorneys and PMs an at-a-glance read on
+        where a case stands, iterated through several rounds of prototyping and
+        validated directly with attorneys in user testing. One line of feedback
+        that stuck: the tool would be a real asset for their team once it was
+        fully deployed.
+      </p>
+    </div>
+  </div>
+
+  <p class="section-label" id="ai-assistant">03 — AI Assistant</p>
+  <div class="split">
+    <h3>AI assistant in the case detail page</h3>
+    <div class="content-div">
+      <p class="prose-label">Shipped</p>
+      <div class="tag-row">
+        <span class="tag">In-context Chat</span>
+        <span class="tag">Inline Editing</span>
+      </div>
+      <p>
+        Designed the in-context AI chat experience for the case detail page,
+        along with AI-assisted inline document editing — both shipped to
+        production.
+      </p>
+    </div>
+  </div>
+</CaseStudy>

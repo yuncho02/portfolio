@@ -1,0 +1,568 @@
+---
+import CaseStudy from "../../layouts/CaseStudy.astro";
+import CaseStudySlideshow from "../../components/CaseStudySlideshow.astro";
+import onectPoster from "../../../Resource/Work/Onect/Onect_thumbnail_image.jpg?url";
+import heroVideo from "../../../Resource/Work/Onect/Onect_Detailed/Onect_project_main.mp4?url";
+import problemImage from "../../../Resource/Work/Onect/Onect_Detailed/Problem.jpg?url";
+import onectImage3 from "../../../Resource/Work/Onect/Onect_Detailed/onect_image3.jpg?url";
+import researchDiagram1 from "../../../Resource/Work/Onect/Onect_Detailed/ResearchDiagram1.jpg?url";
+import researchDiagram2 from "../../../Resource/Work/Onect/Onect_Detailed/ResearchDiagram2.jpg?url";
+import frame75 from "../../../Resource/Work/Onect/Onect_Detailed/Frame 75.jpg?url";
+import frame76 from "../../../Resource/Work/Onect/Onect_Detailed/Frame 76.jpg?url";
+import portfolioPng from "../../../Resource/Work/Onect/Onect_Detailed/portfolio.png?url";
+import portfolioJpg from "../../../Resource/Work/Onect/Onect_Detailed/portfolio 2.jpg?url";
+import eligibilityVideo from "../../../Resource/Work/Onect/Onect_Detailed/Eligibility Test.mp4?url";
+import aiCursorVideo from "../../../Resource/Work/Onect/Onect_Detailed/AI Cursor.mp4?url";
+import fileScanningVideo from "../../../Resource/Work/Onect/Onect_Detailed/File Scanning.mp4?url";
+import reviewFilesVideo from "../../../Resource/Work/Onect/Onect_Detailed/Review Files.mp4?url";
+import ds2 from "../../../Resource/Work/Onect/Onect_Detailed/DS2.jpg?url";
+import ds3 from "../../../Resource/Work/Onect/Onect_Detailed/DS3.png?url";
+import ds4 from "../../../Resource/Work/Onect/Onect_Detailed/DS4.jpg?url";
+import colorPalette from "../../../Resource/Work/Onect/Onect_Detailed/color palette.png?url";
+import onectBrand from "../../../Resource/Work/Onect/Onect_Detailed/onect.jpg?url";
+import wireframe1 from "../../../Resource/Work/Onect/Onect_Detailed/1.jpg?url";
+import wireframe2 from "../../../Resource/Work/Onect/Onect_Detailed/2.jpg?url";
+import wireframe3 from "../../../Resource/Work/Onect/Onect_Detailed/3.jpg?url";
+import wireframe4 from "../../../Resource/Work/Onect/Onect_Detailed/4.jpg?url";
+import wireframe5 from "../../../Resource/Work/Onect/Onect_Detailed/5.jpg?url";
+import competitor1 from "../../../Resource/Work/Onect/Onect_Detailed/competitor1.jpg?url";
+import competitor2 from "../../../Resource/Work/Onect/Onect_Detailed/competitor2.jpg?url";
+
+const wireframeSlides = [
+  { src: wireframe1, alt: "Wireframe iteration 1" },
+  { src: wireframe2, alt: "Wireframe iteration 2" },
+  { src: wireframe3, alt: "Wireframe iteration 3" },
+  { src: wireframe4, alt: "Wireframe iteration 4" },
+  { src: wireframe5, alt: "Wireframe iteration 5" },
+];
+---
+
+<CaseStudy
+  title="Untangling one of the most document-heavy visa processes in the U.S."
+  brand="Onect AI"
+  accent="var(--color-onect)"
+  eyebrow="Onect AI / AI-native legal-tech platform + SaaS"
+  description="An AI-native platform for the U.S. O-1 visa process, serving applicants and attorneys on one shared system."
+  role="Product designer, AI workflow architecture"
+  timeline="August 2025 – March 2026 (8 months)"
+  team="1 product designer, 2 motion designers"
+  skills={["Design system", "User research", "UX/UI"]}
+  image={onectPoster}
+  video={heroVideo}
+  anchors={[
+    { id: "overview", label: "Overview" },
+    { id: "problem", label: "Problem" },
+    { id: "research", label: "Research" },
+    { id: "solution", label: "Solution" },
+    { id: "design-system", label: "Design System" },
+  ]}
+>
+  <div slot="intro">
+    <p class="lede">
+      The O-1 visa process breaks down on both ends. Applicants have no clear
+      roadmap to prove their extraordinary ability, and attorneys are buried in
+      manual document review, where errors are inevitable. Nearly 30% of
+      petitions get flagged as a result.
+    </p>
+    <p class="lede">
+      Onect bridges that gap, giving professionals the structure to build a
+      compelling case and attorneys the clarity to review one.
+    </p>
+  </div>
+
+  <div class="content-stack">
+    <div class="info-card">
+      <h4>※ What is an O-1 visa?</h4>
+      <p>
+        The O-1 is a U.S. work visa for individuals with extraordinary ability,
+        requiring 100+ pages of evidence and up to a year of preparation before a
+        decision is even made.
+      </p>
+    </div>
+
+    <div class="media-stack">
+      <figure>
+        <img src={onectImage3} alt="Onect product overview" loading="lazy" />
+      </figure>
+    </div>
+
+    <div class="impact" data-impact>
+      <div class="impact-col impact-col--results">
+        <p class="impact-label">Achievement</p>
+        <div class="impact-award" data-impact-item>
+          <span class="impact-award-mark">Nominated</span>
+          <p>UX Design Awards 2026</p>
+        </div>
+        <div class="impact-stats">
+          <article class="impact-stat" data-impact-item>
+            <p class="impact-stat-value">
+              <span data-count-to="70">0</span><span class="impact-stat-unit">%</span>
+            </p>
+            <p class="impact-stat-desc">
+              Faster document filing — from 1m 28s down to 26s
+            </p>
+          </article>
+          <article class="impact-stat" data-impact-item>
+            <p class="impact-stat-value">
+              <span data-count-to="80">0</span><span class="impact-stat-unit">%</span>
+            </p>
+            <p class="impact-stat-desc">
+              Better legal-document comprehension through the AI cursor
+            </p>
+          </article>
+        </div>
+      </div>
+
+      <div class="impact-col impact-col--contrib">
+        <p class="impact-label">My contribution</p>
+        <ul class="impact-list">
+          <li data-impact-item>
+            <strong>User interviews</strong>
+            <span
+              >Facilitated 3 interview sessions with lawyers and created affinity
+              maps</span
+            >
+          </li>
+          <li data-impact-item>
+            <strong>Design system</strong>
+            <span
+              >Built a consistent design system that applies across the
+              platform</span
+            >
+          </li>
+          <li data-impact-item>
+            <strong>Interface design</strong>
+            <span
+              >Designed pages for AI cursor, AI feedback, eligibility tests and
+              results, and profile</span
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <p class="section-label">00 — Project Origin</p>
+  <div class="split">
+    <h3>Where the problem became personal</h3>
+    <div>
+      <p>
+        The anxiety international colleagues carried through the O-1 process had
+        little to do with qualifications. It came from the experience itself: no
+        feedback, no structure, and no clear way to know whether the evidence
+        they had assembled told a convincing story.
+      </p>
+      <p>
+        This wasn't a legal problem. It was a design problem. Nobody had built
+        something that served both the applicant trying to understand their own
+        case and the attorney trying to evaluate it efficiently.
+      </p>
+      <div class="callout">
+        <div class="callout-body">
+          <p class="callout-title">Design Challenge</p>
+          <p>
+            How might we redesign the O-1 visa experience so that applicants feel
+            confident and in control, while helping attorneys focus on what they
+            do best, without disrupting the workflows they already rely on?
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="section-label" id="problem">01 — Problem</p>
+  <div class="split problem-split">
+    <div class="problem-lead">
+      <h3>
+        Problem:
+        <br />
+        Two user types.
+        <br />
+        <span class="mark">Completely opposing needs.</span>
+      </h3>
+      <blockquote class="quote-bubble">
+        <p>
+          “Everyone said hire a lawyer and you'll figure it out, but that wasn't
+          true.”
+        </p>
+        <svg class="quote-bubble-caret" width="28" height="14" viewBox="0 0 28 14" fill="none" aria-hidden="true">
+          <path d="M4 0h16L12 14 4 0Z" fill="#f5f5f5" />
+        </svg>
+      </blockquote>
+    </div>
+    <div class="problem-body">
+      <div class="user-block">
+        <p class="user-label">User 1: Applicant</p>
+        <p>
+          <strong>Applicants</strong> are left feeling powerless by a lack of
+          communication from their lawyers and deeply frustrated by an inability
+          to track their own progress.
+        </p>
+      </div>
+      <div class="user-block">
+        <p class="user-label">User 2: Attorney</p>
+        <p>
+          <strong>On the attorney side</strong>, the problem is inverted: too many
+          clients, too little structure. Attorneys spend the majority of their
+          intake time reviewing documents that don't meet the threshold —
+          documents that an earlier filter could have caught.
+        </p>
+      </div>
+      <figure>
+        <img src={problemImage} alt="Applicant and attorney tension" loading="lazy" />
+      </figure>
+      <div class="callout">
+        <div class="callout-body">
+          <p class="callout-title">Why this matters beyond the users</p>
+          <p>
+            When the visa process is too overwhelming, talented people give up
+            before they even try. Onect doesn't just help individuals file a visa
+            petition. It keeps exceptional people moving toward the places where
+            they can do their best work.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="section-label">02 — Goals &amp; Constraints</p>
+  <div class="split">
+    <h3>Goals and real-world limits</h3>
+    <div>
+      <div class="label-block">
+        <p><span class="mark-label">Product Goals</span></p>
+        <ul class="checklist checklist--goals">
+          <li>
+            Give applicants real-time visibility into their case progress and
+            clear next steps, so they never feel lost
+          </li>
+          <li>
+            Let applicants self-assess their eligibility before committing to
+            legal costs, while giving attorneys a way to filter qualified leads
+            from the start
+          </li>
+          <li>
+            Reduce attorney intake friction through intelligent document
+            classification and proactive error detection
+          </li>
+          <li>
+            Design a system where AI accelerates the process but humans remain
+            accountable at every decision point
+          </li>
+        </ul>
+      </div>
+      <div class="label-block">
+        <p>
+          <span class="mark-label mark-label--constraint"
+            >Constraints We Designed Around</span
+          >
+        </p>
+        <ul class="checklist checklist--constraints">
+          <li>
+            Legal sensitivity: The product cannot give legal advice. Every
+            AI-generated output needed to be clearly framed as guidance, not
+            counsel
+          </li>
+          <li>
+            Low willingness to switch: Attorneys already have document workflows.
+            Any tool that required a full behavioral change would face immediate
+            rejection
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <p class="section-label" id="research">03 — Research &amp; Insights</p>
+  <div class="split">
+    <h3>7 conversations.<br />One clear direction</h3>
+    <div class="content-div">
+      <p class="prose-label">Method</p>
+      <div class="tag-row">
+        <span class="tag">SME Interviews (n=7)</span>
+        <span class="tag">Empathy Mapping</span>
+        <span class="tag">Affinity Mapping</span>
+      </div>
+      <p>
+        We spoke with 4 applicants who had recently received their O-1 visa and
+        3 immigration attorneys specializing in O-1 cases. Findings were
+        synthesized via empathy mapping, then reframed using Jobs-to-be-Done to
+        separate surface complaints from root causes.
+      </p>
+    </div>
+  </div>
+
+  <div class="section-stack">
+    <div class="media-stack">
+      <figure>
+        <img src={researchDiagram1} alt="Research synthesis diagram" loading="lazy" />
+      </figure>
+      <figure>
+        <img src={researchDiagram2} alt="Affinity mapping diagram" loading="lazy" />
+      </figure>
+    </div>
+
+    <div class="split">
+      <div class="sticky-board">
+        <h3>Key Jobs-to-be-Done</h3>
+        <div class="sticky-notes">
+          <article class="sticky-note sticky-note--cream" tabindex="0" style="--rot: -2.2deg">
+            <p>
+              “Organization and structure could've saved me from weeks of stress.”
+            </p>
+            <p class="sticky-note-attr">— Applicant B</p>
+          </article>
+          <article class="sticky-note sticky-note--mint" tabindex="0" style="--rot: 1.6deg">
+            <p>
+              “My lawyer was dismissive and annoyed when I asked questions, but I
+              had to do a lot myself.”
+            </p>
+            <p class="sticky-note-attr">— Applicant C</p>
+          </article>
+          <article class="sticky-note sticky-note--blush" tabindex="0" style="--rot: -1.4deg">
+            <p>
+              “A trustworthy platform must pre-qualify applicants accurately.”
+            </p>
+            <p class="sticky-note-attr">— Attorney A</p>
+          </article>
+          <article class="sticky-note sticky-note--lilac" tabindex="0" style="--rot: 2deg">
+            <p>
+              “We focus heavily on preventing RFEs (Request for Evidence) by having
+              the highest quality of work.”
+            </p>
+            <p class="sticky-note-attr">— Attorney A</p>
+          </article>
+        </div>
+      </div>
+      <div>
+        <div class="label-block">
+          <p class="prose-label">Applicants' Jobs to Be Done</p>
+          <ul class="checklist">
+            <li>
+              When my case is in progress, I want real-time visibility into where
+              things stand so I never have to chase my attorney for updates.
+            </li>
+            <li>
+              When I don't understand a legal requirement, I want an immediate
+              answer so I'm not stuck waiting days for a simple response.
+            </li>
+          </ul>
+        </div>
+        <div class="label-block">
+          <p class="prose-label">Lawyers' Jobs to Be Done</p>
+          <ul class="checklist">
+            <li>
+              When evaluating a new client, I want to quickly assess their
+              eligibility upfront so I don't waste hours on cases that won't
+              qualify.
+            </li>
+            <li>
+              When reviewing a petition, I want documents automatically flagged for
+              errors so I can focus on legal strategy, not manual paperwork.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-stack competitor-analysis">
+      <div class="split">
+        <h3>The process is discretionary against the very people it serves</h3>
+        <div class="content-div">
+          <p class="prose-label">Method</p>
+          <div class="tag-row">
+            <span class="tag">Competitor Analysis</span>
+          </div>
+          <p>
+            N=7 was a small sample by research standards. So, we triangulated
+            findings against public USCIS adjudication data and supplemented with a
+            competitor audit of 8 existing tools to increase confidence in the
+            patterns identified.
+          </p>
+        </div>
+      </div>
+
+      <div class="media-pair">
+        <figure>
+          <img src={competitor1} alt="Competitor audit overview" loading="lazy" />
+        </figure>
+        <figure>
+          <img src={competitor2} alt="Competitor audit comparison" loading="lazy" />
+        </figure>
+      </div>
+
+      <div class="split">
+        <div></div>
+        <p>
+          Existing tools (immigration SaaS, attorney portals, USCIS guides) shared a
+          common failure: they were built around the process, not the person. None
+          offered a dual-sided experience. Most existing immigration tools either
+          served attorneys only or treated applicants as passive document suppliers.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <p class="section-label">04 — Ideation &amp; Direction</p>
+  <div class="split">
+    <h3>Designing for two users who want completely different things</h3>
+    <div class="content-div">
+      <p>
+        With two users pulling in opposite directions, our first ideation
+        challenge was structural: should this be one product with dual views, or
+        two separate products sharing a back-end?
+      </p>
+      <p>
+        The wrong answer here would create either a product that felt incoherent
+        to both users, or two products that couldn't deliver the network value of
+        a shared data layer.
+      </p>
+      <div class="callout">
+        <div class="callout-body">
+          <p class="callout-title">Design Principle Established Here</p>
+          <p>
+            We could have automated more. But in legal processes, one wrong
+            assumption can derail someone's entire case. So every AI action
+            required a human to sign off, not because technology is infeasible, but
+            because trust isn't something you can automate.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <CaseStudySlideshow slides={wireframeSlides} />
+
+  <p class="section-label" id="solution">05 — Solution</p>
+  <div class="solution-set">
+    <div class="split">
+      <h3>
+        Solution: A system that{" "}
+        <span class="mark">serves two users without compromising either</span>
+      </h3>
+      <p>
+        Onect AI is a role-based platform where applicants and attorneys share a
+        data layer but never share a view. The applicant experience is built around
+        clarity and momentum. The attorney experience is built around efficiency
+        without disruption.
+      </p>
+    </div>
+
+    <figure class="media-block">
+      <video src={reviewFilesVideo} autoplay muted loop playsinline preload="metadata"></video>
+    </figure>
+  </div>
+
+  <div class="feature">
+    <div class="feature-meta">
+      <p class="feature-label">Feature 01 — <span>Applicant</span></p>
+      <div class="feature-copy">
+        <h3>Eligibility Check + Smart Matching</h3>
+        <p>
+          Applicants begin with an eligibility test, immediately understanding
+          where they stand for the first time.
+        </p>
+      </div>
+    </div>
+    <figure class="media-block">
+      <video src={eligibilityVideo} muted loop playsinline preload="metadata"></video>
+    </figure>
+  </div>
+
+  <div class="feature">
+    <div class="feature-meta">
+      <p class="feature-label">Feature 02 — <span>Applicant</span></p>
+      <div class="feature-copy">
+        <h3>AI Document Assistant</h3>
+        <p>
+          This was the research-backed decision to replace traditional legal
+          gatekeeping with affordable, instant clarity.
+        </p>
+      </div>
+    </div>
+    <figure class="media-block">
+      <video src={aiCursorVideo} muted loop playsinline preload="metadata"></video>
+    </figure>
+  </div>
+
+  <div class="feature">
+    <div class="feature-meta">
+      <p class="feature-label">Feature 03 — <span>Attorney</span></p>
+      <div class="feature-copy">
+        <h3>Intelligent Document Classification</h3>
+        <p>
+          This single feature addresses the root cause of the 100+ page review
+          problem: not the volume, but the absence of any intelligent pre-sort.
+        </p>
+      </div>
+    </div>
+    <figure class="media-block">
+      <video src={fileScanningVideo} muted loop playsinline preload="metadata"></video>
+    </figure>
+  </div>
+
+  <p class="section-label" id="design-system">06 — Design system</p>
+  <div class="split">
+    <h3>Building credibility through restraint</h3>
+    <p>
+      The visual language of Onect AI needed to communicate two things
+      simultaneously: intelligence (this is a sophisticated AI system) and
+      trustworthiness (this is handling your most sensitive documents).
+    </p>
+  </div>
+
+  <div class="media-stack">
+    <figure>
+      <img src={onectBrand} alt="Onect brand mark" loading="lazy" />
+    </figure>
+    <figure>
+      <img src={ds2} alt="Onect design system overview" loading="lazy" />
+    </figure>
+    <div class="media-pair">
+      <figure>
+        <img src={frame75} alt="Onect design system components" loading="lazy" />
+      </figure>
+      <figure>
+        <img src={frame76} alt="Onect design system details" loading="lazy" />
+      </figure>
+    </div>
+    <figure>
+      <img src={ds4} alt="Onect design system screen" loading="lazy" />
+    </figure>
+    <div class="media-pair">
+      <figure>
+        <img src={portfolioPng} alt="Onect design system UI" loading="lazy" />
+      </figure>
+      <figure>
+        <img src={portfolioJpg} alt="Onect design system UI detail" loading="lazy" />
+      </figure>
+    </div>
+    <div class="media-pair">
+      <figure>
+        <img src={colorPalette} alt="Onect color palette" loading="lazy" />
+      </figure>
+      <figure>
+        <img src={ds3} alt="Onect design system UI detail" loading="lazy" />
+      </figure>
+    </div>
+  </div>
+
+  <p class="section-label">Reflection</p>
+  <div class="split">
+    <h3>What I learned and what I'd do differently</h3>
+    <div>
+      <p>
+        Designing for trust is a distinct skill from designing for usability. In
+        high-stakes contexts, a confusing UI that feels safe will outperform a
+        slick UI that feels opaque. Transparency in AI reasoning wasn't a
+        nice-to-have; it was a requirement.
+      </p>
+      <p>
+        The next phase of this work involves end-to-end PII encryption
+        architecture, a financial model that doesn't require applicants to pay
+        attorney rates for AI-assisted guidance, and a data layer that gets more
+        accurate as more petitions flow through it.
+      </p>
+    </div>
+  </div>
+</CaseStudy>

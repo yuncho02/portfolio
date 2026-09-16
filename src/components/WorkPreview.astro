@@ -1,0 +1,131 @@
+---
+---
+
+<div class="preview" data-preview data-empty="true">
+  <img class="preview-media" data-preview-image alt="" hidden />
+  <video class="preview-media" data-preview-video muted loop playsinline hidden></video>
+</div>
+
+<style>
+  .preview {
+    position: relative;
+    height: 100%;
+    min-height: 420px;
+    border-radius: 16px;
+    background: transparent;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .preview[data-empty="false"] {
+    opacity: 1;
+  }
+
+  .preview-media {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .preview-media.is-active {
+    opacity: 1;
+  }
+</style>
+
+<script>
+  function initWorkPreview() {
+    const preview = document.querySelector<HTMLElement>("[data-preview]");
+    const previewImage = document.querySelector<HTMLImageElement>("[data-preview-image]");
+    const previewVideo = document.querySelector<HTMLVideoElement>("[data-preview-video]");
+    const list = document.querySelector<HTMLElement>("[data-work-list]");
+
+    if (!preview || !previewImage || !previewVideo || !list) return;
+    if (list.dataset.previewBound === "true") return;
+    list.dataset.previewBound = "true";
+
+    const rows = Array.from(list.querySelectorAll<HTMLElement>(".row"));
+    let token = 0;
+
+    const mediaUrl = (value?: string) => {
+      if (!value) return "";
+      try {
+        return new URL(value, window.location.origin).href;
+      } catch {
+        return value;
+      }
+    };
+
+    const clear = () => {
+      token += 1;
+      preview.dataset.empty = "true";
+      previewImage.classList.remove("is-active");
+      previewVideo.classList.remove("is-active");
+      previewVideo.pause();
+      previewVideo.removeAttribute("src");
+      previewVideo.load();
+      previewImage.removeAttribute("src");
+      previewImage.hidden = true;
+      previewVideo.hidden = true;
+    };
+
+    const show = (row: HTMLElement) => {
+      const image = row.dataset.image?.trim();
+      const video = row.dataset.video?.trim();
+      const next = ++token;
+
+      if (!image && !video) {
+        clear();
+        return;
+      }
+
+      if (video) {
+        const nextSrc = mediaUrl(video);
+        if (mediaUrl(previewVideo.currentSrc || previewVideo.getAttribute("src") || "") !== nextSrc) {
+          previewVideo.src = video;
+        }
+        preview.dataset.empty = "false";
+        previewVideo.hidden = false;
+        previewVideo.muted = true;
+        previewVideo.defaultMuted = true;
+        previewVideo.volume = 0;
+        void previewVideo.play().catch(() => {});
+        previewImage.classList.remove("is-active");
+        previewImage.hidden = true;
+        previewImage.removeAttribute("src");
+        requestAnimationFrame(() => {
+          if (next !== token) return;
+          previewVideo.classList.add("is-active");
+        });
+        return;
+      }
+
+      previewImage.src = image!;
+      preview.dataset.empty = "false";
+      previewImage.hidden = false;
+      previewVideo.classList.remove("is-active");
+      previewVideo.pause();
+      previewVideo.hidden = true;
+      previewVideo.removeAttribute("src");
+      previewVideo.load();
+      requestAnimationFrame(() => {
+        if (next !== token) return;
+        previewImage.classList.add("is-active");
+      });
+    };
+
+    rows.forEach((row) => {
+      row.addEventListener("mouseenter", () => show(row));
+      row.addEventListener("focus", () => show(row));
+    });
+
+    list.addEventListener("mouseleave", clear);
+  }
+
+  document.addEventListener("astro:page-load", initWorkPreview);
+  initWorkPreview();
+</script>

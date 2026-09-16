@@ -1,0 +1,59 @@
+---
+interface Props {
+  name: string;
+  src?: string;
+}
+
+const { name, src } = Astro.props;
+const initials = name
+  .split(" ")
+  .map((part) => part[0])
+  .join("")
+  .slice(0, 2)
+  .toUpperCase();
+---
+
+{
+  src ? (
+    <img
+      class="avatar"
+      src={src}
+      width={50}
+      height={50}
+      alt={name}
+      transition:persist="profile-avatar"
+      transition:name="profile-avatar"
+    />
+  ) : (
+    <span
+      class="avatar avatar-fallback"
+      aria-hidden="true"
+      transition:persist="profile-avatar"
+      transition:name="profile-avatar"
+    >
+      {initials}
+    </span>
+  )
+}
+
+<style>
+  .avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: var(--radius-avatar);
+    flex-shrink: 0;
+    object-fit: cover;
+  }
+
+  .avatar-fallback {
+    background: var(--color-ink);
+    color: var(--color-paper);
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 19px;
+    letter-spacing: var(--tracking-label);
+  }
+</style>

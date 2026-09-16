@@ -1,0 +1,29 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import { site } from "../data/site";
+---
+
+<Layout title="Art — June Cho" description="Art and visual explorations by June Cho.">
+  <main class="page">
+    <PageHeader
+      name={site.name}
+      avatar={site.avatar}
+      lede="Selected art and visual explorations."
+      active="art"
+    />
+
+    <div class="page-body body">
+      <p class="empty">Coming soon.</p>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .empty {
+    margin: 50px 0 0;
+    font-size: 16px;
+    line-height: 1.5rem;
+    color: var(--color-label);
+  }
+</style>

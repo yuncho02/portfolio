@@ -1,0 +1,23 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "createdAt": "2026-09-15T18:06:10.086Z",
+        "reason": "user confirmed: explicit decision to preserve the incumbent ycho.me identity verbatim (PRODUCT.md Brand Commitments, 2026-09-15), and Inter is the real extracted typeface from that live site, not a default fallback"
+      },
+      {
+        "rule": "broken-image",
+        "value": "*",
+        "files": [
+          "src/components/WorkPreview.astro"
+        ],
+        "createdAt": "2026-09-15T18:26:12.326Z",
+        "reason": "intentional empty-src slot: the img has no src by design and stays [hidden] until the hover script sets it from a row's data-preview-image; not a leftover placeholder"
+      }
+    ]
+  }
+}

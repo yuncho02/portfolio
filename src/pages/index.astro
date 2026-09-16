@@ -1,0 +1,26 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import WorkList from "../components/WorkList.astro";
+import WorkPreview from "../components/WorkPreview.astro";
+import { site, work } from "../data/site";
+---
+
+<Layout title="June Cho — Product Designer">
+  <main class="page page--work" data-view="list">
+    <PageHeader name={site.name} avatar={site.avatar} lede={site.bio} active="work" />
+
+    <div class="page-body body" data-body>
+      <div class="list-column">
+        <div class="list-highlight" data-list-highlight aria-hidden="true"></div>
+        <div class="list-scroll" data-list-scroll>
+          <WorkList items={work} />
+        </div>
+      </div>
+      <div class="panel-gap" aria-hidden="true"></div>
+      <div class="preview-column" data-preview-column>
+        <WorkPreview />
+      </div>
+    </div>
+  </main>
+</Layout>

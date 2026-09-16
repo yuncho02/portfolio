@@ -1,0 +1,215 @@
+---
+import { ClientRouter, fade } from "astro:transitions";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "June Cho — product designer portfolio." } = Astro.props;
+---
+
+<html lang="en" transition:animate="none">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <ClientRouter />
+  </head>
+  <body>
+    <div class="page-transition" transition:animate={fade({ duration: "280ms" })}>
+      <slot />
+    </div>
+    <div
+      class="screen-frame"
+      aria-hidden="true"
+      transition:persist="screen-frame"
+      transition:animate="none"
+    >
+      <span class="screen-frame-corner screen-frame-corner--tl"></span>
+      <span class="screen-frame-corner screen-frame-corner--tr"></span>
+      <span class="screen-frame-corner screen-frame-corner--bl"></span>
+      <span class="screen-frame-corner screen-frame-corner--br"></span>
+    </div>
+  </body>
+</html>
+
+<script>
+  import Lenis from "lenis";
+  import "lenis/dist/lenis.css";
+
+  let lenis: Lenis | null = null;
+  let keyProxy: ((event: KeyboardEvent) => void) | null = null;
+  let headerObserver: ResizeObserver | null = null;
+  let scrollFadeCleanup: (() => void) | null = null;
+
+  function syncHeaderHeight() {
+    const header = document.querySelector<HTMLElement>("header.top");
+    if (!header) return;
+    document.documentElement.style.setProperty(
+      "--header-height",
+      `${Math.ceil(header.getBoundingClientRect().height)}px`,
+    );
+  }
+
+  function destroyLenis() {
+    if (keyProxy) {
+      window.removeEventListener("keydown", keyProxy);
+      keyProxy = null;
+    }
+    window.removeEventListener("resize", syncHeaderHeight);
+    headerObserver?.disconnect();
+    headerObserver = null;
+    scrollFadeCleanup?.();
+    scrollFadeCleanup = null;
+    lenis?.destroy();
+    lenis = null;
+    document.documentElement.classList.remove("work-scroll-lock");
+  }
+
+  function initDocumentLenis() {
+    lenis = new Lenis({
+      autoRaf: true,
+      lerp: 0.07,
+      wheelMultiplier: 0.85,
+      touchMultiplier: 1.1,
+      smoothWheel: true,
+    });
+  }
+
+  function initWorkLenis(list: HTMLElement) {
+    document.documentElement.classList.add("work-scroll-lock");
+    syncHeaderHeight();
+
+    const header = document.querySelector<HTMLElement>("header.top");
+    if (header) {
+      headerObserver = new ResizeObserver(() => syncHeaderHeight());
+      headerObserver.observe(header);
+    }
+    window.addEventListener("resize", syncHeaderHeight);
+
+    const content =
+      list.querySelector<HTMLElement>("[data-work-list]") ?? list;
+    const listColumn = list.closest<HTMLElement>(".list-column");
+
+    const syncScrollFade = () => {
+      if (!listColumn) return;
+      const remaining = list.scrollHeight - list.scrollTop - list.clientHeight;
+      listColumn.dataset.scrollEnd = String(remaining <= 2);
+    };
+
+    list.addEventListener("scroll", syncScrollFade, { passive: true });
+    syncScrollFade();
+    scrollFadeCleanup = () => {
+      list.removeEventListener("scroll", syncScrollFade);
+      listColumn?.removeAttribute("data-scroll-end");
+    };
+
+    // Scroll gestures anywhere; only the list wrapper actually moves
+    lenis = new Lenis({
+      wrapper: list,
+      content,
+      eventsTarget: window,
+      autoRaf: true,
+      lerp: 0.07,
+      wheelMultiplier: 0.85,
+      touchMultiplier: 1.1,
+      smoothWheel: true,
+    });
+
+    keyProxy = (event: KeyboardEvent) => {
+      if (!document.querySelector(".page--work")) return;
+      if (window.matchMedia("(max-width: 900px)").matches) return;
+      if (
+        event.target instanceof HTMLElement &&
+        /^(INPUT|TEXTAREA|SELECT)$/.test(event.target.tagName)
+      ) {
+        return;
+      }
+
+      let delta = 0;
+      switch (event.key) {
+        case "ArrowDown":
+          delta = 60;
+          break;
+        case "ArrowUp":
+          delta = -60;
+          break;
+        case "PageDown":
+          delta = list.clientHeight * 0.9;
+          break;
+        case "PageUp":
+          delta = -list.clientHeight * 0.9;
+          break;
+        case " ":
+          delta = event.shiftKey
+            ? -list.clientHeight * 0.9
+            : list.clientHeight * 0.9;
+          break;
+        case "Home":
+          event.preventDefault();
+          lenis?.scrollTo(0);
+          return;
+        case "End":
+          event.preventDefault();
+          lenis?.scrollTo(lenis.limit);
+          return;
+        default:
+          return;
+      }
+
+      event.preventDefault();
+      lenis?.scrollTo(lenis.scroll + delta);
+    };
+    window.addEventListener("keydown", keyProxy);
+  }
+
+  function initLenis() {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      destroyLenis();
+      return;
+    }
+
+    destroyLenis();
+
+    const list = document.querySelector<HTMLElement>("[data-list-scroll]");
+    const workPage = document.querySelector<HTMLElement>(".page--work");
+    const workView =
+      workPage?.dataset.view ??
+      document.documentElement.dataset.workView ??
+      "list";
+
+    if (
+      workPage &&
+      list &&
+      workView !== "grid" &&
+      !window.matchMedia("(max-width: 900px)").matches
+    ) {
+      initWorkLenis(list);
+    } else {
+      initDocumentLenis();
+    }
+  }
+
+  document.addEventListener("astro:page-load", initLenis);
+  document.addEventListener("astro:before-swap", destroyLenis);
+  window.addEventListener("work-view-change", initLenis as EventListener);
+</script>
+
+<script>
+  import "../scripts/scroll-hint-cursor.ts";
+</script>
+
+<script>
+  import "../scripts/mute-all-videos.ts";
+</script>

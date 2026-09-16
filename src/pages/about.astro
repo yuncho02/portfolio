@@ -1,0 +1,442 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import { site } from "../data/site";
+
+const dossier = [
+  { label: "Now", value: "Product Designer at Manifest O.S." },
+  { label: "Previously", value: "MHCID, University of Washington" },
+  { label: "Based in", value: "New York" },
+];
+---
+
+<Layout title="About — June Cho" description="About June Cho, a product designer based between the U.S. and Korea.">
+  <main class="page page--about">
+    <PageHeader
+      name={site.name}
+      avatar={site.avatar}
+      lede="I'm driven by challenging problems and strive for a high level of craftsmanship in every solution."
+      active="about"
+    />
+
+    <div class="page-body body">
+      <section class="dossier" aria-label="Quick facts" data-reveal-group>
+        {
+          dossier.map((item, index) => (
+            <div
+              class="dossier-row"
+              data-reveal-item
+              style={`--reveal-i: ${index}`}
+            >
+              <span class="dossier-label">{item.label}</span>
+              <span class="dossier-value">{item.value}</span>
+            </div>
+          ))
+        }
+      </section>
+
+      <section class="prose" data-reveal-group>
+        <p data-reveal-item style="--reveal-i: 0">
+          I'm a product designer at Manifest O.S., rebuilding the case workflow for
+          attorneys and paralegals. I'm also a recent graduate of the
+          Human-Computer Interaction and Design master's program at the University
+          of Washington.
+        </p>
+        <p data-reveal-item style="--reveal-i: 1">
+          My Korean name,
+          <button
+            class="name-cue"
+            type="button"
+            data-name-cue
+            aria-expanded="false"
+            aria-controls="seoyun-meaning"
+          >
+            <span class="name-cue-latin">Seoyun</span>
+            <span class="name-cue-hangul" aria-hidden="true">서윤</span>
+          </button>, roughly translates to "unfolds your vision and enriches the
+          world deeply and widely." I've moved often throughout my life, attending
+          a different school at nearly every stage, across cities, countries, and
+          communities, which shaped how I see the world: with openness,
+          adaptability, and a quiet sensitivity to how people experience the
+          environments around them.
+        </p>
+        <p
+          class="name-meaning"
+          id="seoyun-meaning"
+          data-name-meaning
+          hidden
+        >
+          서윤 · unfolds your vision and enriches the world deeply and widely.
+        </p>
+        <p data-reveal-item style="--reveal-i: 2">
+          If any of this resonates, I'd love to connect. Feel free to reach out.
+        </p>
+      </section>
+
+      <section class="contact" data-reveal-group>
+        <h2 class="contact-heading" data-reveal-item style="--reveal-i: 0">
+          Contact
+        </h2>
+        <ul class="contact-list">
+          <li data-reveal-item style="--reveal-i: 1">
+            <a class="contact-link" href={`mailto:${site.contact.email}`}>Email</a>
+          </li>
+          <li data-reveal-item style="--reveal-i: 2">
+            <a
+              class="contact-link"
+              href={site.contact.resume}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Résumé
+            </a>
+          </li>
+          <li data-reveal-item style="--reveal-i: 3">
+            <a
+              class="contact-link"
+              href={site.contact.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              LinkedIn
+            </a>
+          </li>
+          <li data-reveal-item style="--reveal-i: 4">
+            <a
+              class="contact-link"
+              href={site.contact.medium}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Medium
+            </a>
+          </li>
+        </ul>
+      </section>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .page-body.body {
+    padding-top: 50px;
+  }
+
+  .dossier {
+    position: relative;
+    max-width: 42rem;
+    margin: 0 0 48px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dossier-row {
+    display: grid;
+    grid-template-columns: 7.5rem minmax(0, 1fr);
+    gap: 16px;
+    align-items: baseline;
+    padding: 14px 12px;
+    margin: 0 -12px;
+    border-radius: 10px;
+    transition: background 180ms ease;
+  }
+
+  .dossier-row:hover,
+  .dossier-row:focus-within {
+    background: rgba(51, 48, 47, 0.035);
+  }
+
+  .dossier-label {
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: var(--tracking-label);
+    color: var(--color-year);
+  }
+
+  .dossier-value {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: -0.022rem;
+    color: var(--color-ink);
+  }
+
+  .prose {
+    max-width: 65ch;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .prose p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5rem;
+    letter-spacing: -0.02em;
+    color: var(--color-label);
+  }
+
+  .name-cue {
+    position: relative;
+    display: inline-grid;
+    vertical-align: baseline;
+    margin: 0;
+    padding: 0 1px;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    letter-spacing: inherit;
+    color: var(--color-ink);
+    cursor: pointer;
+    border-radius: 2px;
+  }
+
+  .name-cue-latin,
+  .name-cue-hangul {
+    grid-area: 1 / 1;
+    transition:
+      opacity 220ms ease,
+      transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .name-cue-hangul {
+    opacity: 0;
+    transform: translateY(4px);
+    pointer-events: none;
+  }
+
+  .name-cue::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 1px;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .name-cue:hover .name-cue-latin,
+  .name-cue:focus-visible .name-cue-latin,
+  .name-cue[aria-expanded="true"] .name-cue-latin {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  .name-cue:hover .name-cue-hangul,
+  .name-cue:focus-visible .name-cue-hangul,
+  .name-cue[aria-expanded="true"] .name-cue-hangul {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .name-cue:hover::after,
+  .name-cue:focus-visible::after,
+  .name-cue[aria-expanded="true"]::after {
+    transform: scaleX(1);
+  }
+
+  .name-cue:focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 3px;
+  }
+
+  .name-meaning {
+    margin: -8px 0 0;
+    padding: 10px 12px;
+    border-left: 1px solid var(--color-divider);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+    color: var(--color-ink);
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+      opacity 240ms ease,
+      transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .name-meaning.is-open {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .name-meaning[hidden] {
+    display: none;
+  }
+
+  .name-meaning.is-open[hidden] {
+    display: block;
+  }
+
+  .contact {
+    margin-top: 64px;
+    padding-top: 32px;
+    border-top: 1px solid var(--color-divider);
+  }
+
+  .contact-heading {
+    margin: 0 0 16px;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: var(--tracking-label);
+    color: var(--color-tag);
+  }
+
+  .contact-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  .contact-link {
+    position: relative;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-ink);
+    padding-bottom: 2px;
+  }
+
+  .contact-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(1);
+    transform-origin: left center;
+    transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .contact-link:hover::after,
+  .contact-link:focus-visible::after {
+    transform: scaleX(0);
+    transform-origin: right center;
+  }
+
+  .contact-link:focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 4px;
+  }
+
+  [data-reveal-item] {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (max-width: 640px) {
+    .dossier-row {
+      grid-template-columns: 1fr;
+      gap: 4px;
+      padding: 12px 8px;
+      margin: 0 -8px;
+    }
+
+    .dossier-value {
+      font-size: 16px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dossier-row,
+    .name-cue-latin,
+    .name-cue-hangul,
+    .name-cue::after,
+    .name-meaning,
+    .contact-link::after,
+    [data-reveal-item] {
+      transition: none;
+    }
+
+    .name-cue-hangul,
+    .name-cue:hover .name-cue-latin,
+    .name-cue:focus-visible .name-cue-latin,
+    .name-cue[aria-expanded="true"] .name-cue-latin {
+      transform: none;
+    }
+
+    [data-reveal-item] {
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  function initNameCue() {
+    const cue = document.querySelector<HTMLButtonElement>("[data-name-cue]");
+    const meaning = document.querySelector<HTMLElement>("[data-name-meaning]");
+    if (!cue || !meaning) return;
+    if (cue.dataset.bound === "true") return;
+    cue.dataset.bound = "true";
+
+    const setOpen = (open: boolean) => {
+      cue.setAttribute("aria-expanded", open ? "true" : "false");
+      meaning.hidden = !open;
+      meaning.classList.toggle("is-open", open);
+    };
+
+    cue.addEventListener("click", () => {
+      setOpen(cue.getAttribute("aria-expanded") !== "true");
+    });
+
+    cue.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      setOpen(false);
+      cue.blur();
+    });
+  }
+
+  function initReveals() {
+    const groups = document.querySelectorAll<HTMLElement>("[data-reveal-group]");
+    if (!groups.length) return;
+
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) {
+      groups.forEach((group) => group.classList.add("is-visible"));
+      return;
+    }
+
+    const pending = [...groups].filter((group) => !group.classList.contains("is-visible"));
+    if (!pending.length) return;
+
+    const revealIfInView = (group: HTMLElement) => {
+      const rect = group.getBoundingClientRect();
+      const viewport = window.innerHeight || document.documentElement.clientHeight;
+      return rect.top < viewport * 0.92 && rect.bottom > 0;
+    };
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("is-visible");
+          io.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.05, rootMargin: "0px 0px -4% 0px" },
+    );
+
+    pending.forEach((group) => {
+      if (revealIfInView(group)) {
+        group.classList.add("is-visible");
+        return;
+      }
+      io.observe(group);
+    });
+  }
+
+  document.addEventListener("astro:page-load", initNameCue);
+  document.addEventListener("astro:page-load", initReveals);
+  initNameCue();
+  initReveals();
+</script>

@@ -1,0 +1,359 @@
+---
+import type { WorkItem } from "../data/site";
+
+interface Props {
+  items: WorkItem[];
+}
+
+const { items } = Astro.props;
+const mainItems = items.filter((item) => (item.group ?? "main") === "main");
+const funItems = items.filter((item) => item.group === "fun");
+---
+
+<div class="work-list" data-work-list data-view="list">
+  {
+    mainItems.map((item) => {
+      const isLink = item.status !== "stub" && item.status !== "coming-soon";
+      const Tag = isLink ? "a" : "div";
+      const href = isLink ? `/work/${item.slug}` : undefined;
+      return (
+        <Tag
+          class="row"
+          href={href}
+          data-status={item.status}
+          data-image={item.image}
+          data-video={item.video}
+        >
+          <div class="row-body">
+            <div class="row-heading">
+              <h3 class="row-title">{item.title}</h3>
+              {item.status === "coming-soon" && <span class="row-badge">Coming soon</span>}
+            </div>
+            <div class="row-meta">
+              <span class="row-year">{item.year}</span>
+              <span class="row-dot" aria-hidden="true">·</span>
+              <span class="row-role">{item.role}</span>
+            </div>
+          </div>
+          <div class="row-preview" aria-hidden="true">
+            {item.image ? (
+              <img class="row-preview-image" src={item.image} alt="" loading="lazy" />
+            ) : null}
+            {item.video ? (
+              <video
+                class="row-preview-video"
+                src={item.video}
+                muted
+                loop
+                playsinline
+                preload="metadata"
+              />
+            ) : null}
+            {!item.image && !item.video ? (
+              <span class="row-preview-mark">{item.title.slice(0, 1)}</span>
+            ) : null}
+          </div>
+        </Tag>
+      );
+    })
+  }
+  {
+    funItems.length > 0 && (
+      <div class="work-divider" role="separator" aria-label="Fun and Archive projects">
+        <span class="work-divider-label">FUN / ARCHIVE</span>
+      </div>
+    )
+  }
+  {
+    funItems.map((item) => {
+      const isLink = item.status !== "stub" && item.status !== "coming-soon";
+      const Tag = isLink ? "a" : "div";
+      const href = isLink ? `/work/${item.slug}` : undefined;
+      return (
+        <Tag
+          class="row"
+          href={href}
+          data-status={item.status}
+          data-image={item.image}
+          data-video={item.video}
+        >
+          <div class="row-body">
+            <div class="row-heading">
+              <h3 class="row-title">{item.title}</h3>
+              {item.status === "coming-soon" && <span class="row-badge">Coming soon</span>}
+            </div>
+            <div class="row-meta">
+              <span class="row-year">{item.year}</span>
+              <span class="row-dot" aria-hidden="true">·</span>
+              <span class="row-role">{item.role}</span>
+            </div>
+          </div>
+          <div class="row-preview" aria-hidden="true">
+            {item.image ? (
+              <img class="row-preview-image" src={item.image} alt="" loading="lazy" />
+            ) : null}
+            {item.video ? (
+              <video
+                class="row-preview-video"
+                src={item.video}
+                muted
+                loop
+                playsinline
+                preload="metadata"
+              />
+            ) : null}
+            {!item.image && !item.video ? (
+              <span class="row-preview-mark">{item.title.slice(0, 1)}</span>
+            ) : null}
+          </div>
+        </Tag>
+      );
+    })
+  }
+</div>
+
+<style>
+  .work-list {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .work-divider {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 32px 12px 20px;
+  }
+
+  .work-divider-label {
+    flex: none;
+    font-size: 18.1px;
+    font-weight: 500;
+    font-style: italic;
+    line-height: 24.41px;
+    letter-spacing: -0.398px;
+    color: #8a8a8a;
+  }
+
+  .row {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px 16px;
+    border-radius: 16px;
+    color: inherit;
+  }
+
+  a.row {
+    cursor: pointer;
+  }
+
+  .row-preview {
+    display: none;
+  }
+
+  .row-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .row-heading {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .row-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: -0.022rem;
+    color: var(--color-ink);
+  }
+
+  .row-badge {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--color-tag);
+    border: 1px solid #ddd9d3;
+    border-radius: var(--radius-pill);
+    padding: 2px 10px;
+  }
+
+  .row-meta {
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    font-size: 18.1px;
+    letter-spacing: var(--tracking-meta);
+    color: var(--color-meta);
+  }
+
+  .row-year,
+  .row-dot,
+  .row-role {
+    color: var(--color-meta);
+  }
+
+  [data-status="stub"] .row-title,
+  [data-status="coming-soon"] .row-title {
+    color: var(--color-label);
+  }
+
+  .work-list[data-view="grid"] {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .work-list[data-view="grid"] .work-divider {
+    grid-column: 1 / -1;
+    margin: 0;
+    padding: 8px 0 0;
+  }
+
+  .work-list[data-view="grid"] .row {
+    flex-direction: column;
+    gap: 0;
+    margin: 0;
+    border: 1px solid var(--color-divider);
+    border-radius: 10px;
+    padding: 0;
+    overflow: hidden;
+    height: auto;
+    transform:
+      perspective(1200px)
+      rotateX(var(--tilt-x, 0deg))
+      rotateY(var(--tilt-y, 0deg))
+      translateY(var(--tilt-lift, 0px));
+    transform-style: preserve-3d;
+    transition:
+      transform 160ms cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 180ms ease,
+      border-color 180ms ease;
+  }
+
+  .work-list[data-view="grid"] .row:hover,
+  .work-list[data-view="grid"] .row[data-tilt-active="true"] {
+    --tilt-lift: -2px;
+    border-color: #f4f4f6;
+    box-shadow:
+      inset 0 2px 4px #ffffff,
+      inset 0 -4px 4px rgba(255, 255, 255, 0.5),
+      inset 0 -4px 16px #ffffff,
+      inset 0 4px 10px rgba(111, 111, 117, 0.07),
+      0 6px 28px -10px rgba(53, 53, 79, 0.14),
+      0 18px 48px -10px rgba(53, 53, 79, 0.08);
+  }
+
+  .work-list[data-view="grid"] .row-preview {
+    position: relative;
+    order: -1;
+    display: flex;
+    flex: none;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    height: auto;
+    min-height: 0;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    overflow: hidden;
+  }
+
+  .work-list[data-view="grid"] .row-preview-mark {
+    font-size: 40px;
+    font-weight: 500;
+    letter-spacing: var(--tracking-title);
+  }
+
+  .work-list[data-view="grid"] .row-preview-image,
+  .work-list[data-view="grid"] .row-preview-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transform: translateZ(0);
+  }
+
+  .work-list[data-view="grid"] .row-preview-video {
+    z-index: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .work-list[data-view="grid"] .row-preview:not(:has(.row-preview-image)) .row-preview-video {
+    opacity: 1;
+  }
+
+  .work-list[data-view="grid"] .row-preview-image {
+    z-index: 1;
+    transition: opacity 180ms ease;
+  }
+
+  .work-list[data-view="grid"] .row[data-preview-playing="true"] .row-preview-video {
+    opacity: 1;
+  }
+
+  .work-list[data-view="grid"] .row[data-preview-playing="true"] .row-preview-image {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .work-list[data-view="grid"] .row-preview-image {
+      transition: none;
+    }
+  }
+
+  .work-list[data-view="grid"] .row-body {
+    flex: none;
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    align-self: stretch;
+    padding: 16px;
+    transform: translateZ(18px);
+  }
+
+  @media (max-width: 640px) {
+    .work-list[data-view="grid"] {
+      grid-template-columns: 1fr;
+    }
+
+    .row {
+      gap: 12px;
+      padding: 16px;
+    }
+
+    .row-title,
+    .row-meta {
+      font-size: 16px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .work-list[data-view="grid"] .row {
+      transform: none;
+      transition:
+        box-shadow 180ms ease,
+        border-color 180ms ease;
+    }
+  }
+</style>
+
+<script>
+  import "../scripts/work-list-highlight.ts";
+</script>

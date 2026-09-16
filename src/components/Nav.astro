@@ -1,0 +1,89 @@
+---
+interface Props {
+  active: "work" | "art" | "about";
+}
+
+const { active } = Astro.props;
+---
+
+<nav class="nav" aria-label="Primary" data-primary-nav>
+  <a
+    href="/"
+    class:list={["nav-tab", { active: active === "work" }]}
+    data-nav="work"
+    aria-current={active === "work" ? "page" : undefined}
+  >
+    Work
+  </a>
+  <a
+    href="/art"
+    class:list={["nav-tab", { active: active === "art" }]}
+    data-nav="art"
+    aria-current={active === "art" ? "page" : undefined}
+  >
+    Art
+  </a>
+  <a
+    href="/about"
+    class:list={["nav-tab", { active: active === "about" }]}
+    data-nav="about"
+    aria-current={active === "about" ? "page" : undefined}
+  >
+    About
+  </a>
+</nav>
+
+<style>
+  .nav {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .nav-tab {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 3px 12px 8px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: -0.02em;
+    color: var(--color-label);
+    transition: color 0.15s ease;
+  }
+
+  .nav-tab:hover {
+    color: var(--color-ink);
+  }
+
+  .nav-tab.active {
+    color: var(--color-label);
+  }
+
+  .nav-tab.active::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-bottom: 4px solid rgba(0, 0, 0, 0.07);
+    pointer-events: none;
+  }
+</style>
+
+<script>
+  function syncPrimaryNav() {
+    const nav = document.querySelector<HTMLElement>("[data-primary-nav]");
+    if (!nav) return;
+
+    const path = location.pathname.replace(/\/$/, "") || "/";
+    const current = path === "/about" ? "about" : path === "/art" ? "art" : "work";
+
+    nav.querySelectorAll<HTMLAnchorElement>(".nav-tab").forEach((tab) => {
+      const active = tab.dataset.nav === current;
+      tab.classList.toggle("active", active);
+      if (active) tab.setAttribute("aria-current", "page");
+      else tab.removeAttribute("aria-current");
+    });
+  }
+
+  document.addEventListener("astro:page-load", syncPrimaryNav);
+</script>
