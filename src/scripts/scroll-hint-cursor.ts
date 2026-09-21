@@ -5,6 +5,7 @@ let active = false;
 let pendingShow = false;
 let bound = false;
 let hasPointer = false;
+let hovering = false;
 let cursorEl: HTMLElement | null = null;
 let pointerX = 0;
 let pointerY = 0;
@@ -12,12 +13,22 @@ let raf = 0;
 
 function canHint(): boolean {
   if (document.hidden) return false;
+  if (hovering) return false;
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
   if (window.matchMedia("(pointer: coarse)").matches) return false;
   if (window.matchMedia("(max-width: 900px)").matches) return false;
   // Work homepage only — not About, Art, or case studies
   if (!document.querySelector(".page--work")) return false;
   return true;
+}
+
+function isHoverTarget(target: EventTarget | null): boolean {
+  if (!(target instanceof Element)) return false;
+  return Boolean(
+    target.closest(
+      ".row, a, button, [data-view-toggle], [data-preview], .preview-column",
+    ),
+  );
 }
 
 function isScrollable(): boolean {
@@ -101,11 +112,25 @@ function onUserScroll() {
   hideHint();
 }
 
+function setHovering(next: boolean) {
+  if (hovering === next) return;
+  hovering = next;
+  if (hovering) {
+    clearTimer();
+    hideHint();
+    return;
+  }
+  startIdleTimer();
+}
+
 function onPointerMove(event: PointerEvent) {
   pointerX = event.clientX;
   pointerY = event.clientY;
   hasPointer = true;
 
+  setHovering(isHoverTarget(event.target));
+
+  if (hovering) return;
   if (pendingShow) showHint();
   else if (active && !raf) raf = requestAnimationFrame(moveCursor);
 }
@@ -149,6 +174,7 @@ function bindOnce() {
 
 function initScrollHintCursor() {
   bindOnce();
+  hovering = false;
   startIdleTimer();
 }
 
@@ -156,6 +182,7 @@ document.addEventListener("astro:page-load", initScrollHintCursor);
 document.addEventListener("astro:before-swap", () => {
   clearTimer();
   hideHint();
+  hovering = false;
 });
 window.addEventListener("work-view-change", () => {
   startIdleTimer();

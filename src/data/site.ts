@@ -6,9 +6,11 @@ import onectImage from "../../Resource/Work/Onect/Onect_thumbnail_image.jpg?url"
 import onectVideo from "../../Resource/Work/Onect/Onect_thumbnail_video.mp4?url";
 import gemiImage from "../../Resource/Work/GEMI/GEMI_thumbnail_image.png?url";
 import gemiVideo from "../../Resource/Work/GEMI/GEMI_thumbnail_video.mp4?url";
+import birdingImage from "../../Resource/Work/Birding/Birding_thumbnail_image.jpg?url";
 import horrorgameVideo from "../../Resource/Work/Horrorgame/Horrorgame_thumbnail_image.mp4?url";
 import xomoxImage from "../../Resource/Work/XOMOX/XOMOX_thumbnail_image.jpeg?url";
 import minigolfVideo from "../../Resource/Work/Minigolf/Minigolf_thumbnail_video.mp4?url";
+import tamagotchiVideo from "../../Resource/Work/Tamagotchi/Tamagotchi_thumbnail_video.mp4?url";
 
 export const site = {
   name: "June Cho",
@@ -36,6 +38,8 @@ export interface WorkItem {
   summary: string;
   image?: string;
   video?: string;
+  /** External project URL. When set, the row links here instead of /work/[slug]. */
+  href?: string;
 }
 
 export const work: WorkItem[] = [
@@ -98,6 +102,7 @@ export const work: WorkItem[] = [
     status: "stub",
     group: "fun",
     summary: "Archived exploration project from ycho.me.",
+    image: birdingImage,
   },
   {
     slug: "horrorgame",
@@ -108,6 +113,7 @@ export const work: WorkItem[] = [
     group: "fun",
     summary: "Archived exploration project from ycho.me.",
     video: horrorgameVideo,
+    href: "https://echos-of-the-abandoned.netlify.app/",
   },
   {
     slug: "minigolf",
@@ -127,5 +133,7 @@ export const work: WorkItem[] = [
     status: "stub",
     group: "fun",
     summary: "Fun project from ycho.me.",
+    video: tamagotchiVideo,
+    href: "https://junecho02.medium.com/building-an-ai-tamagotchi-with-raspberry-pi-zero-2w-part-2-hardware-5a470aee44c4",
   },
 ];

@@ -13,14 +13,22 @@ const funItems = items.filter((item) => item.group === "fun");
 <div class="work-list" data-work-list data-view="list">
   {
     mainItems.map((item) => {
-      const isLink = item.status !== "stub" && item.status !== "coming-soon";
+      const href =
+        item.href ??
+        (item.status !== "stub" && item.status !== "coming-soon"
+          ? `/work/${item.slug}`
+          : undefined);
+      const isLink = Boolean(href);
+      const isExternal = Boolean(item.href?.startsWith("http"));
       const Tag = isLink ? "a" : "div";
-      const href = isLink ? `/work/${item.slug}` : undefined;
+      const rowStatus = item.href ? "shipped" : item.status;
       return (
         <Tag
           class="row"
           href={href}
-          data-status={item.status}
+          target={isExternal ? "_blank" : undefined}
+          rel={isExternal ? "noopener noreferrer" : undefined}
+          data-status={rowStatus}
           data-image={item.image}
           data-video={item.video}
         >
@@ -36,6 +44,9 @@ const funItems = items.filter((item) => item.group === "fun");
             </div>
           </div>
           <div class="row-preview" aria-hidden="true">
+            {item.image || item.video ? (
+              <span class="row-preview-loading">Loading<span class="loading-ellipsis"></span></span>
+            ) : null}
             {item.image ? (
               <img class="row-preview-image" src={item.image} alt="" loading="lazy" />
             ) : null}
@@ -66,14 +77,22 @@ const funItems = items.filter((item) => item.group === "fun");
   }
   {
     funItems.map((item) => {
-      const isLink = item.status !== "stub" && item.status !== "coming-soon";
+      const href =
+        item.href ??
+        (item.status !== "stub" && item.status !== "coming-soon"
+          ? `/work/${item.slug}`
+          : undefined);
+      const isLink = Boolean(href);
+      const isExternal = Boolean(item.href?.startsWith("http"));
       const Tag = isLink ? "a" : "div";
-      const href = isLink ? `/work/${item.slug}` : undefined;
+      const rowStatus = item.href ? "shipped" : item.status;
       return (
         <Tag
           class="row"
           href={href}
-          data-status={item.status}
+          target={isExternal ? "_blank" : undefined}
+          rel={isExternal ? "noopener noreferrer" : undefined}
+          data-status={rowStatus}
           data-image={item.image}
           data-video={item.video}
         >
@@ -89,6 +108,9 @@ const funItems = items.filter((item) => item.group === "fun");
             </div>
           </div>
           <div class="row-preview" aria-hidden="true">
+            {item.image || item.video ? (
+              <span class="row-preview-loading">Loading<span class="loading-ellipsis"></span></span>
+            ) : null}
             {item.image ? (
               <img class="row-preview-image" src={item.image} alt="" loading="lazy" />
             ) : null}
@@ -278,6 +300,44 @@ const funItems = items.filter((item) => item.group === "fun");
     letter-spacing: var(--tracking-title);
   }
 
+  .work-list[data-view="grid"] .row-preview-loading {
+    position: relative;
+    z-index: 2;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: rgba(255, 255, 255, 0.72);
+    opacity: 1;
+    transition: opacity 180ms ease;
+  }
+
+  .work-list[data-view="grid"] .row-preview[data-media-ready="true"] .row-preview-loading {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .work-list[data-view="grid"] .loading-ellipsis {
+    display: inline-block;
+    width: 1.15em;
+    overflow: hidden;
+    vertical-align: bottom;
+    white-space: nowrap;
+    animation: row-loading-ellipsis 1.2s steps(4, end) infinite;
+  }
+
+  .work-list[data-view="grid"] .loading-ellipsis::before {
+    content: "...";
+  }
+
+  @keyframes row-loading-ellipsis {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 1.15em;
+    }
+  }
+
   .work-list[data-view="grid"] .row-preview-image,
   .work-list[data-view="grid"] .row-preview-video {
     position: absolute;
@@ -295,13 +355,20 @@ const funItems = items.filter((item) => item.group === "fun");
     pointer-events: none;
   }
 
-  .work-list[data-view="grid"] .row-preview:not(:has(.row-preview-image)) .row-preview-video {
+  .work-list[data-view="grid"]
+    .row-preview:not(:has(.row-preview-image))[data-media-ready="true"]
+    .row-preview-video {
     opacity: 1;
   }
 
   .work-list[data-view="grid"] .row-preview-image {
     z-index: 1;
+    opacity: 0;
     transition: opacity 180ms ease;
+  }
+
+  .work-list[data-view="grid"] .row-preview[data-media-ready="true"] .row-preview-image {
+    opacity: 1;
   }
 
   .work-list[data-view="grid"] .row[data-preview-playing="true"] .row-preview-video {
@@ -314,6 +381,15 @@ const funItems = items.filter((item) => item.group === "fun");
 
   @media (prefers-reduced-motion: reduce) {
     .work-list[data-view="grid"] .row-preview-image {
+      transition: none;
+    }
+
+    .work-list[data-view="grid"] .loading-ellipsis {
+      animation: none;
+      width: 1.15em;
+    }
+
+    .work-list[data-view="grid"] .row-preview-loading {
       transition: none;
     }
   }
@@ -356,4 +432,44 @@ const funItems = items.filter((item) => item.group === "fun");
 
 <script>
   import "../scripts/work-list-highlight.ts";
+
+  function markPreviewReady(preview: HTMLElement) {
+    preview.dataset.mediaReady = "true";
+  }
+
+  function bindRowPreviewMedia(preview: HTMLElement) {
+    if (preview.dataset.mediaBound === "true") return;
+    preview.dataset.mediaBound = "true";
+
+    const image = preview.querySelector<HTMLImageElement>(".row-preview-image");
+    const video = preview.querySelector<HTMLVideoElement>(".row-preview-video");
+
+    if (image) {
+      const ready = () => markPreviewReady(preview);
+      if (image.complete && image.naturalWidth > 0) {
+        ready();
+      } else {
+        image.addEventListener("load", ready, { once: true });
+        image.addEventListener("error", ready, { once: true });
+      }
+      return;
+    }
+
+    if (video) {
+      const ready = () => markPreviewReady(preview);
+      if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+        ready();
+      } else {
+        video.addEventListener("loadeddata", ready, { once: true });
+        video.addEventListener("error", ready, { once: true });
+      }
+    }
+  }
+
+  function initRowPreviewLoading() {
+    document.querySelectorAll<HTMLElement>(".row-preview").forEach(bindRowPreviewMedia);
+  }
+
+  document.addEventListener("astro:page-load", initRowPreviewLoading);
+  initRowPreviewLoading();
 </script>

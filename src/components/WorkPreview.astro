@@ -2,6 +2,7 @@
 ---
 
 <div class="preview" data-preview data-empty="true">
+  <span class="preview-loading" data-preview-loading aria-hidden="true">Loading<span class="loading-ellipsis"></span></span>
   <img class="preview-media" data-preview-image alt="" hidden />
   <video
     class="preview-media"
@@ -30,6 +31,48 @@
     opacity: 1;
   }
 
+  .preview-loading {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--color-meta);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+  }
+
+  .preview[data-loading="true"] .preview-loading {
+    opacity: 1;
+  }
+
+  .loading-ellipsis {
+    display: inline-block;
+    width: 1.15em;
+    overflow: hidden;
+    vertical-align: bottom;
+    white-space: nowrap;
+    animation: loading-ellipsis 1.2s steps(4, end) infinite;
+  }
+
+  .loading-ellipsis::before {
+    content: "...";
+  }
+
+  @keyframes loading-ellipsis {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 1.15em;
+    }
+  }
+
   .preview-media {
     position: absolute;
     inset: 0;
@@ -42,6 +85,17 @@
 
   .preview-media.is-active {
     opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .loading-ellipsis {
+      animation: none;
+      width: 1.15em;
+    }
+
+    .preview[data-loading="true"] .preview-loading {
+      opacity: 0.7;
+    }
   }
 </style>
 
@@ -71,6 +125,11 @@
 
     const imageCache = new Map<string, HTMLImageElement>();
     const videoCache = new Map<string, HTMLVideoElement>();
+
+    const setLoading = (loading: boolean) => {
+      if (loading) preview.dataset.loading = "true";
+      else delete preview.dataset.loading;
+    };
 
     const preloadImage = (src: string) => {
       const href = mediaUrl(src);
@@ -126,9 +185,53 @@
       token += 1;
       activeRow = null;
       preview.dataset.empty = "true";
+      setLoading(false);
       hideImage();
       hideVideo();
       // Keep src buffers warm — do not tear down media.
+    };
+
+    const imageReady = (src: string) => {
+      const href = mediaUrl(src);
+      const cached = imageCache.get(href);
+      return Boolean(
+        (cached && cached.complete && cached.naturalWidth > 0) ||
+          (mediaUrl(previewImage.currentSrc || previewImage.getAttribute("src") || "") === href &&
+            previewImage.complete &&
+            previewImage.naturalWidth > 0),
+      );
+    };
+
+    const showImage = (src: string, next: number) => {
+      const href = mediaUrl(src);
+      const cached = preloadImage(src);
+
+      if (mediaUrl(previewImage.currentSrc || previewImage.getAttribute("src") || "") !== href) {
+        previewImage.classList.remove("is-active");
+        previewImage.src = href;
+      }
+
+      previewImage.hidden = false;
+
+      const activate = () => {
+        if (next !== token) return;
+        previewImage.classList.add("is-active");
+        if (!previewVideo.classList.contains("is-active")) setLoading(false);
+      };
+
+      if (imageReady(src) || (cached && cached.complete && cached.naturalWidth > 0)) {
+        activate();
+        return;
+      }
+
+      setLoading(true);
+      const onReady = () => {
+        previewImage.removeEventListener("load", onReady);
+        previewImage.removeEventListener("error", onReady);
+        activate();
+      };
+      previewImage.addEventListener("load", onReady, { once: true });
+      previewImage.addEventListener("error", onReady, { once: true });
     };
 
     const playPreviewVideo = (src: string, next: number) => {
@@ -150,6 +253,7 @@
         if (next !== token) return;
         previewVideo.classList.add("is-active");
         hideImage();
+        setLoading(false);
         void previewVideo.play().catch(() => {});
       };
 
@@ -158,6 +262,7 @@
         return;
       }
 
+      setLoading(true);
       const onReady = () => {
         previewVideo.removeEventListener("loadeddata", onReady);
         previewVideo.removeEventListener("canplay", onReady);
@@ -183,19 +288,12 @@
 
       preview.dataset.empty = "false";
 
-      // Instant still while video warms (or as the final state).
+      // Still frame while video warms (or as the final state) — only once decoded.
       if (image) {
-        preloadImage(image);
-        if (mediaUrl(previewImage.currentSrc || previewImage.getAttribute("src") || "") !== mediaUrl(image)) {
-          previewImage.src = image;
-        }
-        previewImage.hidden = false;
-        requestAnimationFrame(() => {
-          if (next !== token) return;
-          previewImage.classList.add("is-active");
-        });
+        showImage(image, next);
       } else {
         hideImage();
+        if (video) setLoading(true);
       }
 
       if (video) {

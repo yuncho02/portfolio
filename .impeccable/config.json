@@ -17,6 +17,21 @@
         ],
         "createdAt": "2026-09-15T18:26:12.326Z",
         "reason": "intentional empty-src slot: the img has no src by design and stays [hidden] until the hover script sets it from a row's data-preview-image; not a leftover placeholder"
+      },
+      {
+        "rule": "broken-image",
+        "value": "*",
+        "files": [
+          "src/layouts/CaseStudy.astro"
+        ],
+        "createdAt": "2026-09-21T18:35:46.588Z",
+        "reason": "lightbox img starts empty; src set on open"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "crimson pro",
+        "createdAt": "2026-09-21T19:04:00.334Z",
+        "reason": "Case study display face documented in DESIGN.md"
       }
     ]
   }

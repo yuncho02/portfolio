@@ -167,6 +167,7 @@ Case studies (`src/layouts/CaseStudy.astro` + `src/pages/work/*`) share one comp
 - Per-project accent via `accent` prop → `--case-accent` on `.page`
   - Onect: `--color-onect` (`#6366f1`)
   - GEMI: `--color-gemi` (`#5AC5A3`)
+  - Manifest OS: `--color-manifest` (`#44301F`)
   - Default fallback: `--color-onect`
 
 ### Do / Don't (case studies)
