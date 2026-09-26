@@ -41,6 +41,12 @@ const funItems = items.filter((item) => item.group === "fun");
               <span class="row-year">{item.year}</span>
               <span class="row-dot" aria-hidden="true">·</span>
               <span class="row-role">{item.role}</span>
+              {item.linkLabel ? (
+                <>
+                  <span class="row-dot" aria-hidden="true">·</span>
+                  <span class="row-link">{item.linkLabel}</span>
+                </>
+              ) : null}
             </div>
           </div>
           <div class="row-preview" aria-hidden="true">
@@ -105,6 +111,12 @@ const funItems = items.filter((item) => item.group === "fun");
               <span class="row-year">{item.year}</span>
               <span class="row-dot" aria-hidden="true">·</span>
               <span class="row-role">{item.role}</span>
+              {item.linkLabel ? (
+                <>
+                  <span class="row-dot" aria-hidden="true">·</span>
+                  <span class="row-link">{item.linkLabel}</span>
+                </>
+              ) : null}
             </div>
           </div>
           <div class="row-preview" aria-hidden="true">
@@ -223,7 +235,8 @@ const funItems = items.filter((item) => item.group === "fun");
 
   .row-year,
   .row-dot,
-  .row-role {
+  .row-role,
+  .row-link {
     color: var(--color-meta);
   }
 

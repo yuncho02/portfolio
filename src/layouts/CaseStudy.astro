@@ -340,9 +340,6 @@ const pageStyle = accent ? { "--case-accent": accent } : undefined;
     max-width: 60ch;
     margin: 0 auto 16px;
     text-align: center;
-    font-size: 15px;
-    line-height: 1.45;
-    letter-spacing: -0.02em;
     color: #7d7d7d;
   }
 
@@ -394,7 +391,23 @@ const pageStyle = accent ? { "--case-accent": accent } : undefined;
   }
 
   .media {
+    position: relative;
     margin: 0 0 var(--case-gap);
+  }
+
+  .media:has(video)::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 32%;
+    pointer-events: none;
+    border-radius: 0 0 12px 12px;
+    background: linear-gradient(
+      to bottom,
+      rgb(255 255 255 / 0) 0%,
+      rgb(255 255 255 / 0.55) 55%,
+      var(--color-paper) 100%
+    );
   }
 
   .media-asset {
@@ -510,9 +523,6 @@ const pageStyle = accent ? { "--case-accent": accent } : undefined;
 
   .prose :global(p) {
     margin: 0 0 16px;
-    font-size: 15px;
-    line-height: 1.45;
-    letter-spacing: -0.02em;
     color: #7d7d7d;
   }
 
@@ -525,8 +535,6 @@ const pageStyle = accent ? { "--case-accent": accent } : undefined;
   }
 
   .prose :global(li) {
-    font-size: 15px;
-    line-height: 1.45;
     color: #7d7d7d;
   }
 
@@ -1360,6 +1368,10 @@ const pageStyle = accent ? { "--case-accent": accent } : undefined;
     margin: 0;
   }
 
+  .prose :global(.section-stack > .slideshow + .split) {
+    margin-top: -50px;
+  }
+
   .prose :global(.media-pair) {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -1375,6 +1387,21 @@ const pageStyle = accent ? { "--case-accent": accent } : undefined;
   .prose :global(.media-pair > .placeholder),
   .prose :global(.media-pair > .media-block) {
     margin: 0;
+  }
+
+  .prose :global(.media-pair--match > figure),
+  .prose :global(.media-pair--match > .media-block) {
+    min-height: 0;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: 12px;
+  }
+
+  .prose :global(.media-pair--match img),
+  .prose :global(.media-pair--match video) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .prose :global(.media-stack .media-pair) {
@@ -1510,6 +1537,17 @@ const pageStyle = accent ? { "--case-accent": accent } : undefined;
     .prose :global(.solution-set .media-stack),
     .prose :global(.sticky-notes) {
       grid-template-columns: 1fr;
+    }
+
+    .prose :global(.media-pair--match > figure),
+    .prose :global(.media-pair--match > .media-block) {
+      aspect-ratio: auto;
+    }
+
+    .prose :global(.media-pair--match img),
+    .prose :global(.media-pair--match video) {
+      height: auto;
+      object-fit: unset;
     }
 
     .prose :global(.feature--split .media-block img) {

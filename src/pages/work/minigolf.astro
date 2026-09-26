@@ -1,0 +1,120 @@
+---
+import CaseStudy from "../../layouts/CaseStudy.astro";
+import heroStill from "../../../Resource/Work/Minigolf/golf1.jpg?url";
+import heroVideo from "../../../Resource/Work/Minigolf/Minigolf_thumbnail_video.mp4?url";
+import outcomeVideo from "../../../Resource/Work/Minigolf/golf2.mov?url";
+import outcomeUi from "../../../Resource/Work/Minigolf/outcome1.jpg?url";
+import snap1 from "../../../Resource/Work/Minigolf/snap1.jpg?url";
+import snap2 from "../../../Resource/Work/Minigolf/snap2.jpg?url";
+import snap3 from "../../../Resource/Work/Minigolf/snap3.jpg?url";
+import snap4 from "../../../Resource/Work/Minigolf/snap4.jpg?url";
+import snap5 from "../../../Resource/Work/Minigolf/snap5.png?url";
+import snap6 from "../../../Resource/Work/Minigolf/snap6.jpg?url";
+import snap7 from "../../../Resource/Work/Minigolf/snap7.jpg?url";
+import snap8 from "../../../Resource/Work/Minigolf/snap8.jpg?url";
+import snap9 from "../../../Resource/Work/Minigolf/snap9.jpg?url";
+import teamImg from "../../../Resource/Work/Minigolf/golf4.jpg?url";
+---
+
+<CaseStudy
+  title="Re-imagining minigolf"
+  brand="SNASA"
+  accent="var(--color-minigolf)"
+  eyebrow="SNASA / Interactive prototyping"
+  description="Mini golf reimagined as a Secret NASA emergency mission, where players guide atomic energy through a launch system and send a rocket after an incoming asteroid."
+  role="Game interaction designer, barrier builder"
+  timeline="January 2026 – March 2026 (2 months)"
+  team="Rakshit, Meera, Gracia"
+  skills={["Prototyping", "CPX engineering", "Interactive game"]}
+  image={heroStill}
+  video={heroVideo}
+  anchors={[
+    { id: "overview", label: "Overview" },
+    { id: "outcome", label: "Outcome" },
+    { id: "snapshots", label: "Snapshots" },
+    { id: "reflection", label: "Reflection" },
+  ]}
+>
+  <div slot="intro">
+    <p class="lede">
+      Our project reimagines mini golf as a Secret NASA (SNASA) emergency
+      mission. Players guide atomic energy through a launch preparation system
+      to assemble an atomic bomb and launch a rocket that destroys an incoming
+      asteroid.
+    </p>
+  </div>
+
+  <p class="section-label" id="outcome">00 — Project outcome</p>
+  <div class="media-stack">
+    <figure class="media-block">
+      <video src={outcomeVideo} autoplay muted loop playsinline preload="metadata"></video>
+    </figure>
+    <figure class="media-block">
+      <img src={outcomeUi} alt="SNASA character select screen with Meera, Rakshit, Yun, and Gracia" loading="lazy" />
+    </figure>
+    <figure class="media-block">
+      <img src={heroStill} alt="Finished SNASA mini-golf hole with foil walls, screens, and a hanging rocket" loading="lazy" />
+    </figure>
+  </div>
+
+  <p class="section-label" id="snapshots">01 — Snapshots</p>
+  <div class="media-stack">
+    <div class="media-pair media-pair--match">
+      <figure>
+        <img src={snap1} alt="Field visit and early observation from the minigolf research" loading="lazy" />
+      </figure>
+      <figure>
+        <img src={snap2} alt="Indoor minigolf course used as a research reference" loading="lazy" />
+      </figure>
+    </div>
+    <div class="media-pair media-pair--match">
+      <figure>
+        <img src={snap3} alt="Course detail from the minigolf field visit" loading="lazy" />
+      </figure>
+      <figure>
+        <img src={snap4} alt="Players on the reference minigolf course" loading="lazy" />
+      </figure>
+    </div>
+    <figure>
+      <img src={snap5} alt="Early concept sketch for an interactive educational minigolf hole" loading="lazy" />
+    </figure>
+    <figure>
+      <img src={snap6} alt="Cardboard and tape prototype of a minigolf hole" loading="lazy" />
+    </figure>
+    <figure>
+      <img src={snap7} alt="Building out the SNASA hole in the studio" loading="lazy" />
+    </figure>
+    <div class="media-pair media-pair--match">
+      <figure>
+        <img src={snap8} alt="Team working on the SNASA prototype" loading="lazy" />
+      </figure>
+      <figure>
+        <img src={snap9} alt="Playtesting the SNASA hole" loading="lazy" />
+      </figure>
+    </div>
+    <figure>
+      <img src={teamImg} alt="Project team around a table: Rakshit, Meera, Gracia, and June" loading="lazy" />
+    </figure>
+  </div>
+
+  <p class="section-label" id="reflection">Reflection</p>
+  <div class="split">
+    <h3>What I learned</h3>
+    <div class="content-div">
+      <ul class="checklist checklist--goals">
+        <li>
+          Prototyping became how we thought through ideas: make it, test it,
+          change it.
+        </li>
+        <li>
+          Each checkpoint moved the project from an early concept to a more
+          complete interactive experience.
+        </li>
+        <li>
+          User testing showed gaps we couldn't see ourselves, like clarity,
+          flow, and whether people stayed engaged.
+        </li>
+      </ul>
+    </div>
+  </div>
+</CaseStudy>

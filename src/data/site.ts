@@ -15,7 +15,7 @@ import tamagotchiVideo from "../../Resource/Work/Tamagotchi/Tamagotchi_thumbnail
 export const site = {
   name: "June Cho",
   fullName: "June Seoyun Cho",
-  bio: "June is a product designer with 3+ years of experience who loves making complex things feel understandable and human.",
+  bio: "June is a product designer at Manifest Legal Tech who simplifies complex workflows so people feel heard.",
   avatar: avatarImage,
   contact: {
     email: "yunchobusiness@gmail.com",
@@ -40,6 +40,8 @@ export interface WorkItem {
   video?: string;
   /** External project URL. When set, the row links here instead of /work/[slug]. */
   href?: string;
+  /** Short CTA shown next to the role when the row is an external link. */
+  linkLabel?: string;
 }
 
 export const work: WorkItem[] = [
@@ -50,12 +52,12 @@ export const work: WorkItem[] = [
     role: "Product Designer",
     status: "shipped",
     summary:
-      "Rebuilding the case workflow for attorneys and paralegals — a design-system audit and a shipped AI assistant.",
+      "Rebuilding the case workflow for attorneys and paralegals. A design-system audit, plus a shipped AI assistant.",
     image: manifestImage,
   },
   {
     slug: "ghost-ai",
-    title: "Ghost AI",
+    title: "Ghost AI (Amazon + MHCID)",
     year: "2026",
     role: "Product Engineer",
     status: "coming-soon",
@@ -67,7 +69,7 @@ export const work: WorkItem[] = [
     slug: "onect-ai",
     title: "Onect: Legal Tech",
     year: "2025",
-    role: "UX Design Awards Nominated",
+    role: "UX Design Awards Nominee",
     status: "shipped",
     summary:
       "An AI-native platform for the U.S. O-1 visa process, serving applicants and attorneys on one shared system. UX Design Awards 2026 nominee.",
@@ -78,7 +80,7 @@ export const work: WorkItem[] = [
     slug: "gemi",
     title: "GEMI: Every Small Win Is a Gem",
     year: "2024",
-    role: "UG Thesis",
+    role: "Undergrad Thesis",
     status: "shipped",
     summary:
       "A mobile app for adults with ADHD that replaces shame-driven to-do lists with a visual, gamified record of earned progress.",
@@ -95,10 +97,22 @@ export const work: WorkItem[] = [
     image: xomoxImage,
   },
   {
+    slug: "tamagotchi",
+    title: "Building AI Tamagotchi",
+    year: "Fun",
+    role: "Mini Project",
+    status: "stub",
+    group: "fun",
+    summary: "Fun project from ycho.me.",
+    video: tamagotchiVideo,
+    href: "https://junecho02.medium.com/building-an-ai-tamagotchi-with-raspberry-pi-zero-2w-part-2-hardware-5a470aee44c4",
+    linkLabel: "Link to Medium",
+  },
+  {
     slug: "birding-by-ears",
     title: "Birding by Ears",
-    year: "Archive",
-    role: "Side Project",
+    year: "2026",
+    role: "User Research and Testing",
     status: "stub",
     group: "fun",
     summary: "Archived exploration project from ycho.me.",
@@ -107,33 +121,24 @@ export const work: WorkItem[] = [
   {
     slug: "horrorgame",
     title: "Horrorgame",
-    year: "Archive",
+    year: "2026",
     role: "Experimental",
     status: "stub",
     group: "fun",
     summary: "Archived exploration project from ycho.me.",
     video: horrorgameVideo,
     href: "https://echos-of-the-abandoned.netlify.app/",
+    linkLabel: "Link to the Game →",
   },
   {
     slug: "minigolf",
-    title: "Minigolf",
-    year: "Fun",
+    title: "Minigolf: SNASA",
+    year: "2026",
     role: "Mini Project",
-    status: "stub",
+    status: "shipped",
     group: "fun",
-    summary: "Fun project from ycho.me.",
+    summary:
+      "Mini golf reimagined as a Secret NASA emergency mission. Interactive prototyping with Rakshit, Meera, and Gracia.",
     video: minigolfVideo,
-  },
-  {
-    slug: "tamagotchi",
-    title: "Tamagotchi",
-    year: "Fun",
-    role: "Mini Project",
-    status: "stub",
-    group: "fun",
-    summary: "Fun project from ycho.me.",
-    video: tamagotchiVideo,
-    href: "https://junecho02.medium.com/building-an-ai-tamagotchi-with-raspberry-pi-zero-2w-part-2-hardware-5a470aee44c4",
   },
 ];

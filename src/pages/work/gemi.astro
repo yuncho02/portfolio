@@ -24,6 +24,7 @@ import prototype4 from "../../../Resource/Work/GEMI/GEMI_Detailed/Prototype4.mp4
 import model1 from "../../../Resource/Work/GEMI/GEMI_Detailed/model1.jpg?url";
 import model2 from "../../../Resource/Work/GEMI/GEMI_Detailed/model2.jpg?url";
 import model3 from "../../../Resource/Work/GEMI/GEMI_Detailed/model3.jpg?url";
+import commentImg from "../../../Resource/Work/GEMI/GEMI_Detailed/comment.jpg?url";
 
 const surveySlides = [
   { src: survey1, alt: "Public survey results on ADHD perception" },
@@ -45,8 +46,8 @@ const researchSlides = [
   brand="GEMI"
   accent="var(--color-gemi)"
   eyebrow="GEMI / Undergrad senior thesis · 0 → 1 product design"
-  description="A mobile app for adults with ADHD that replaces shame-driven to-do lists with a visual, gamified journey of earned growth."
-  role="Sole Designer — research, UX, prototyping, visual design, design system, 3D & animation"
+  description="A mobile app for adults with ADHD that replaces shame-driven to-do lists with a visual, gamified record of earned progress."
+  role="Sole designer: research, UX, prototyping, visual design, design system, 3D & animation"
   timeline="August 2023 – June 2024"
   team="Solo thesis project"
   skills={["User research", "UX/UI", "3D rendering", "Design system"]}
@@ -63,9 +64,9 @@ const researchSlides = [
 >
   <div slot="intro">
     <p class="lede">
-      Adults with ADHD aren't lazy. They're chronically under-rewarded by systems
-      that weren't built for their brains. GEMI replaces the guilt cycle of
-      traditional to-do lists with a visual, gamified journey of earned growth.
+      Adults with ADHD aren't lazy. Most planning tools just don't reward them in
+      a way that sticks. GEMI replaces the guilt cycle of a regular to-do list
+      with a visual, gamified record of progress they actually earned.
     </p>
   </div>
 
@@ -128,12 +129,12 @@ const researchSlides = [
       <p>
         It started in a YouTube comment section. While watching a video about ADHD,
         I scrolled through replies from people describing a lifetime of being told
-        they were lazy, irresponsible, and not trying hard enough — often without
-        ever receiving a diagnosis.
+        they were lazy, irresponsible, and not trying hard enough, often without
+        ever getting a diagnosis.
       </p>
       <p>
-        As someone with ADHD myself, the pattern was familiar: not failure of
-        effort, but failure of feedback.
+        I have ADHD, so the pattern was familiar. People weren't failing from a
+        lack of effort. They were failing from a lack of feedback.
       </p>
       <p>
         <a
@@ -146,6 +147,10 @@ const researchSlides = [
       </p>
     </div>
   </div>
+
+  <figure>
+    <img src={commentImg} alt="YouTube comment that sparked the GEMI thesis" loading="lazy" />
+  </figure>
 
   <p class="section-label" id="problem">01 — Problem</p>
   <div class="split problem-split">
@@ -161,14 +166,13 @@ const researchSlides = [
     <div class="problem-body">
       <p>
         Adults with ADHD face a measurably worse set of outcomes than the general
-        population — not because they're incapable, but because the structures
-        they're expected to thrive within were not built for how their brains
-        process motivation and reward.
+        population. Not because they're incapable, but because the systems they're
+        asked to succeed in weren't built for how their brains handle motivation
+        and reward.
       </p>
       <p>
-        The product problem, stated precisely: no existing planning tool provides
-        rewarding or motivating feedback tailored to how individuals with ADHD
-        actually process motivation.
+        The product problem is simple: no existing planning tool gives people with
+        ADHD feedback that actually feels rewarding.
       </p>
       <figure class="media-block">
         <video src={decreaseVideo} autoplay muted loop playsinline preload="metadata"></video>
@@ -182,7 +186,7 @@ const researchSlides = [
       <div class="panel-body">
         <div class="panel-row">
           <strong>Only 15% hold a four-year degree</strong>
-          Compared to 48% of the general population. Not a talent gap — a system
+          Compared to 48% of the general population. Not a talent gap. A system
           gap.
         </div>
       </div>
@@ -192,8 +196,8 @@ const researchSlides = [
       <div class="panel-body">
         <div class="panel-row">
           <strong>3× more likely to experience depression</strong>
-          The chronic failure loop — try, fail, blame yourself, repeat — compounds
-          over time into clinical outcomes.
+          Try, fail, blame yourself, repeat. That loop compounds over time into
+          clinical outcomes.
         </div>
       </div>
     </div>
@@ -212,9 +216,9 @@ const researchSlides = [
       <div class="panel-body">
         <div class="panel-row">
           <strong>Existing apps don't close the feedback loop</strong>
-          Generic productivity tools treat all users identically. For ADHD users,
-          the absence of immediate, meaningful reward can make them actively
-          demotivating.
+          Generic productivity tools treat every user the same. For people with
+          ADHD, the lack of immediate, meaningful reward can make those tools
+          actively demotivating.
         </div>
       </div>
     </div>
@@ -222,7 +226,7 @@ const researchSlides = [
 
   <p class="section-label">02 — Goals &amp; Constraints</p>
   <div class="split">
-    <h3>What success looks like, and what limits it</h3>
+    <h3>What I was aiming for, and what I had to work around</h3>
     <div>
       <div class="label-block">
         <p><span class="mark-label">Product Goals</span></p>
@@ -240,7 +244,7 @@ const researchSlides = [
       <div class="label-block">
         <p>
           <span class="mark-label mark-label--constraint"
-            >Constraints We Designed Around</span
+            >Constraints</span
           >
         </p>
         <ul class="checklist checklist--constraints">
@@ -256,7 +260,7 @@ const researchSlides = [
 
   <p class="section-label" id="research">03 — Research &amp; Insights</p>
   <div class="split">
-    <h3>Triangulating the problem from multiple angles</h3>
+    <h3>Looking at the same problem from a few directions</h3>
     <div class="content-div">
       <p class="prose-label">Method</p>
       <div class="tag-row">
@@ -272,20 +276,21 @@ const researchSlides = [
       <div></div>
       <div>
         <div class="label-block">
-          <p><span class="mark-label">Stream 1 — Public survey (n=110)</span></p>
+          <p><span class="mark-label">Stream 1: Public survey (n=110)</span></p>
           <p>
-            Surveyed 110 participants ages 18–50, including 97 non-diagnosed and 13
-            diagnosed individuals. Goal: measure how ADHD is perceived socially, and
-            whether stigma was shaping the way people sought — or avoided — support.
+            I surveyed 110 people ages 18–50, including 97 without a diagnosis and
+            13 with one. The goal was to see how ADHD is perceived socially, and
+            whether stigma was shaping whether people asked for support or stayed
+            away from it.
           </p>
           <div class="callout">
             <div class="callout-body">
               <p class="callout-title">Key finding</p>
               <p>
                 A significant portion of respondents equated ADHD with “just being
-                human,” associating it with laziness or lack of discipline rather
-                than a neurological condition. This misperception links to delayed
-                diagnosis, internalized shame, and avoidance of support tools that
+                human,” associating it with laziness or a lack of discipline rather
+                than a neurological condition. That misperception is tied to delayed
+                diagnosis, internalized shame, and avoiding the support tools that
                 could help.
               </p>
             </div>
@@ -301,11 +306,11 @@ const researchSlides = [
       <div></div>
       <div>
         <div class="label-block">
-          <p><span class="mark-label">Stream 2 — ADHD-specific survey (n=11)</span></p>
+          <p><span class="mark-label">Stream 2: ADHD-specific survey (n=11)</span></p>
           <p>
-            Surveyed 11 students with ADHD specifically on sources of motivation and
-            challenge. After filtering out areas where participants felt confident in
-            their execution, one pattern emerged with clarity.
+            I surveyed 11 students with ADHD about what motivated them and what
+            got in the way. After setting aside areas they already felt confident
+            in, one pattern came through clearly.
           </p>
           <blockquote class="quote-bubble">
             <p>
@@ -326,23 +331,21 @@ const researchSlides = [
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="section-stack">
+    <CaseStudySlideshow slides={researchSlides} />
     <div class="split">
       <div></div>
       <div>
         <div class="label-block">
-          <p><span class="mark-label">Stream 3 — Literature review</span></p>
+          <p><span class="mark-label">Stream 3: Literature review</span></p>
           <p>
-            Reviewed research on ADHD neurology and existing behavioral intervention
-            models. Three brain-level dynamics directly informed the design
-            direction:
+            I reviewed research on ADHD neurology and existing behavioral
+            intervention models. Three brain-level dynamics directly shaped the
+            design direction:
           </p>
           <ul class="checklist checklist--goals">
             <li>
-              Structure that reduces overwhelm — a common challenge for people with
-              ADHD
+              Structure that reduces overwhelm, which is a common challenge for
+              people with ADHD
             </li>
             <li>
               Clear connections between specific actions and desired results, so
@@ -356,14 +359,13 @@ const researchSlides = [
         </div>
       </div>
     </div>
-    <CaseStudySlideshow slides={researchSlides} />
 
     <div class="split">
-      <h3>Who will be our user?</h3>
+        <h3>Who is this for?</h3>
       <div class="content-div">
         <p>
-          Users like Laura are not lacking ability — they struggle with initiating
-          and sustaining action when tasks feel overwhelming or unrewarding.
+          Users like Laura don't lack ability. They struggle to start and stay
+          with tasks when the work feels overwhelming or unrewarding.
         </p>
       </div>
     </div>
@@ -386,9 +388,9 @@ const researchSlides = [
         <span class="mark">one coherent experience</span>
       </h3>
       <p>
-        GEMI is a mobile productivity app structured around a single promise: your
-        effort is real, it accumulates, and it shows. Three core systems work
-        together to deliver that promise.
+        GEMI is a mobile productivity app built around one idea: your effort is
+        real, it adds up, and you can see it. Three core systems work together
+        to deliver that.
       </p>
     </div>
 
@@ -416,9 +418,9 @@ const researchSlides = [
       <div class="feature-copy">
         <h3>Personalized gemstone</h3>
         <p>
-          Most apps treat everyone the same. GEMI starts by actually listening —
-          your pain points, your patterns, your version of a win. What comes out is
-          a gemstone that's yours to craft.
+          Most apps treat everyone the same. GEMI starts with your pain points,
+          your patterns, and what a win looks like for you. What you get is a
+          gemstone that's yours to craft.
         </p>
       </div>
     </div>
@@ -435,9 +437,9 @@ const researchSlides = [
       <div class="feature-copy">
         <h3>To-do &amp; progress tracking</h3>
         <p>
-          The list of things undone has a way of drowning out everything that got
-          done. GEMI flips that. Your gemstone growing is the progress report that
-          actually means something.
+          The list of things left undone has a way of drowning out everything
+          that got done. GEMI flips that. Your growing gemstone is the progress
+          report that actually means something.
         </p>
       </div>
     </div>
@@ -454,8 +456,8 @@ const researchSlides = [
       <div class="feature-copy">
         <h3>Enter Cave: social focus mode</h3>
         <p>
-          A collaborative deep-work environment built around body doubling — one of
-          the most evidence-backed ADHD coping strategies.
+          A shared focus space built around body doubling, one of the most
+          evidence-backed ADHD coping strategies.
         </p>
       </div>
     </div>
@@ -472,8 +474,8 @@ const researchSlides = [
       <div class="feature-copy">
         <h3>Make your gemstone shine</h3>
         <p>
-          A collection of earned gemstones that serves as a visual record of
-          success — replacing the feeling of failure with a feeling of pride.
+          A collection of earned gemstones that acts as a visual record of what
+          went well, instead of another reminder of what didn't.
         </p>
       </div>
     </div>
@@ -481,13 +483,13 @@ const researchSlides = [
 
   <p class="section-label" id="reflection">Reflection</p>
   <div class="split">
-    <h3>What I learned and what I'd do differently</h3>
+    <h3>What I learned</h3>
     <div class="content-div">
       <p>
-        Emotional safety is a design material. The most effective decisions I made
-        weren't visual, but structural: no streak penalties, opt-in social
-        features, additive-only progress. The feeling of being supported by an app
-        is as designable as its layout.
+        The decisions that mattered most weren't visual. They were structural: no
+        streak penalties, social features that stay opt-in, progress that only
+        adds. I wanted the app to feel like it was on your side, and that takes
+        the same care as the layout.
       </p>
     </div>
   </div>
